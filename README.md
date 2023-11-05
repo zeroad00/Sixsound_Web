@@ -17,8 +17,7 @@ OpenSource Software project 6조 </br>
 5. 연도별 인수인계 자료
 
 ### Images
-![Guitar Image](./guitar.jpg)
-![Logo Image](./logo.jpg)
+![Sixsound Image](./sixsound.jpg)
 
 ### Project schedule
 - 11월 3일 ~ 11월 13일 : HTML 틀 만들기
@@ -34,15 +33,15 @@ OpenSource Software project 6조 </br>
 </tr>
 <tr>
     <td>윤영로</td>
-    <td>동아리 캘린더</td>
+    <td>동아리 캘린더 파트 제작</td>
 </tr>
 <tr>
     <td>김재현</td>
-    <td>회계 장부</td>
+    <td>회계 장부 파트 제작</td>
 </tr>
 <tr>
     <td>손 민</td>
-    <td>기타 대여 현황</td>
+    <td>기타 대여 현황 파트 제작</td>
 </tr>
 </table>
 

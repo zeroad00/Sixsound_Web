@@ -1,33 +1,136 @@
 <!doctype html>
 <html>
+
 <head>
-<title>WEB - javascript</title>
+    <title>WEB - javascript</title>
 
-<meta charset = "utf-8">
-<!--브라우저를 열 때 " "사이의 형태로 열어라-->
+    <meta charset = "utf-8">
+    <!--브라우저를 열 때 " "사이의 형태로 열어라-->
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <style>
+        /* CSS Code */
+        button {
+            margin-top: 10px;
+        }
+
+        .rental {
+            text-align: center;
+        }
+
+        .application {
+            text-align: center;
+        }
+
+        .form-control {
+            width: 150px;
+            height: 30px;
+        }
+
+        .inputData {
+            margin-right: 10px;
+        }
+
+    </style>
 </head>
 
 <body>
+
+    <!-- HTML Code -->
     <h1><a href="index.html">WEB</a></h1>
+
     <ul><!--unordered list-->
         <li><a href="1.html">1. HTML</a></li>
         <li><a href="2.html">2. CSS</a></li>
         <li><a href="3.html">기타 대여</a></li>
     </ul>
+        
+    <h3>기타 대여 현황</h3>
+    <div class="rental">
+        <!-- 기타 대여 정보가 담긴 표 -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">기수</th>
+                <th scope="col">이름</th>
+                <th scope="col">기타 번호</th>
+                <th scope="col">대여 기간</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr>
+                <th scope="row">1</th>
+                <td>34기</td>
+                <td>윤영로</td>
+                <td>3</td>
+                <td>2023.11.22 - 2023.11.29</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>36기</td>
+                <td>김재현</td>
+                <td>5</td>
+                <td>2023.11.23 - 2023.11.30</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>35기</td>
+                <td>손민</td>
+                <td>7</td>
+                <td>2023.11.24 - 2023.11.30</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="button">
+            <button> 연장 신청 </button>
+            <button> 반납 신청 </button>
+        </div>
+    </div>
 
-    <h2>Javascript</h2>
-    <p>
-        JavaScript는 본래 넷스케이프 서버에서 애플리케이션을 
-        제작하기 위한 고수준 추상화 언어로 설계되어 넷스케이프 
-        내비게이터에 LiveScript 이름의 인터프리터를 넣었다. 
-        그러나 JavaScript는 당시 기준에서 무리한 추상화를 시도했기 
-        때문에 성능 문제가 많았다. 게다가 마케팅 좀 해보자고 붙인 
-        이름인 JavaScript가 Java의 열화판이라는 느낌이라서 당시 
-        개발자들 사이에서 이름으로 무시당했다. 여기에 더해서 그나마 
-        클라이언트용 JavaScript 엔진에 있던 시스템 자원 접근용 
-        API들이 보안사고의 원인이 되면서 삭제되는 과정에서, 
-        별다른 보완 방법을 제시하지 못하는 등 한계가 여실했다.
-    </p>
+    <h3>기타 대여 신청</h3>
+    <div class="application">
+        <div class="d-flex">
+            <!-- 기수 입력 -->
+            <div class="inputData">
+                <label for="inputNum" class="form-label">기수</label>
+                <input type="num" class="form-control" id="inputNum">
+            </div>            
+            <!-- 이름 입력 -->
+            <div class="inputData">
+                <label for="inputName" class="form-label">이름</label>
+                <input type="name" class="form-control" id="inputName">
+            </div>
+            <!-- 기타 선택 -->
+            <div class="inputData">
+                <label for="guitar-num" class="form-label">기타 번호</label>
+                <select class="form-select form-control form-select-sm" id="guitar-num">
+                    <option selected>기타 선택</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">4</option>
+                </select>
+            </div>
+            <!-- 기간 입력 -->
+            <div class="inputData">
+                <label for="inputDateStart" class="form-label">대여 일자</label>
+                <input type="date" class="form-control" id="inputDateStart">
+            </div>
+            <div>
+                <label for="inputDateEnd" class="form-label">반납 일자</label>
+                <input type="date" class="form-control" id="inputDateEnd">
+            </div>            
+        </div>
+
+        <button> 확인 </button>
+    </div>
+    
+    <script>
+        /* JS Code */
+    </script>
+
 </body>
+
 </html>

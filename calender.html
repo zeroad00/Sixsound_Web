@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- fullcalendar CDN -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+    <!-- fullcalendar 언어 CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>Page Title</title>
+    <style>
+        /* CSS Code */
+        .container {
+            width: 640px;
+        }
+
+        /* body 스타일 */
+        html, body {
+            overflow: hidden;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
+        .fc-header-toolbar {
+            padding-top: 1em;
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+    </style>
+</head>
+
+<body style="padding:30px;">
+    <!-- HTML Code -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+    <!-- html code -->
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">
+                <!-- checkimage -->
+                <i class="bi bi-card-checklist"></i>
+                여섯소리 Calendar
+            </span>
+        </div>
+    </nav>
+    <!-- calendar -->
+    <div id='calendar-container'>
+        <div id="calender"></div>
+    </div>
+
+    <!-- calendar code write -->
+
+    <!-- notice in calendar -->
+    <div class="container">
+        <div class="d-flex">
+            <div class="flex-grow-1 bg-light rounded-2 p-2 me-1 w-50">
+                <h3>공지사항</h3>
+                <div id="task-list">
+                    <div class="task bg-light p-1 rounded-2 ps-2 d-flex align items-center">
+                        <span class="me-auto">캘린더에서 가져오기</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-grow-1 bg-light rounded-2 p-2 w-50">
+                <h3>행사일정</h3>
+                <div id="done-list">
+                    <div class="task bg-light p-1 rounded-2 ps-2 d-flex align items-center">
+                        <span class="me-auto">캘린더에서 가져오기</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const Type = {
+            Todo: 'todo',
+            Done: 'done'
+        };
+
+        let tasks = [];
+
+        /* JS Code */
+        window.addEventListener("load", () => {
+            loadTasks();
+        });
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+        // Read the state string from the local storage
+        function loadTasks() {
+            let lastTasks = localStorage.getItem("tasks");
+            if (!lastTasks) return;
+            tasks = JSON.parse(lastTasks);
+            tasks.forEach(t => {
+                if (t.type === Type.Todo) {
+                    addToListWithButton(t);
+                }
+                else if (t.type === Type.Done) {
+                    addToListWithRemoveButton(t, true);
+                }
+                //addToList(t);
+            });
+        }
+    </script>
+</body>
+
+</html>

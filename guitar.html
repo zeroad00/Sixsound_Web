@@ -88,14 +88,6 @@
                         <label for="guitarNum" class="form-label">기타 번호</label>
                         <select class="form-select form-control form-select-sm" id="guitarNum">
                             <option selected>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
                             </option>
                         </select>
                     </div>
@@ -137,7 +129,7 @@
         /* JS Code */
 
         //대여 가능한 기타 번호를 담을 배열
-        let guitarInfos = Array.from({length:8}, (v,i) => i+1)
+        let guitarInfos = Array.from({length:8}, (v,i) => i+1);
 
         function addToSelects(guitars){
             let inputGuitar = document.querySelector("#guitarNum");
@@ -251,6 +243,9 @@
         
         //load datas
         window.addEventListener("load", () => {
+            let guitarOnce = Array.from({length:8}, (v,i) => i+1);
+            console.log(guitarOnce);
+            addToSelects(guitarOnce); //초기값 설정
             loadDatas();
         });
 

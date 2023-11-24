@@ -125,11 +125,13 @@
         </div>
     </div>
 
+    <button id="reset"> 상태 초기화 </button>
+
     <script>
         /* JS Code */
 
         //대여 가능한 기타 번호를 담을 배열
-        let guitarInfos = Array.from({length:8}, (v,i) => i+1);
+        let guitarInfos = [];
 
         function addToSelects(guitars){
             let inputGuitar = document.querySelector("#guitarNum");
@@ -151,6 +153,7 @@
 
         //TABLE에 대여 정보 추가
         function addToTable(data) {
+            
             let table = document.getElementById('guitar-table');
             let new_row = table.insertRow(); //table에 tr 추가해줌
             let cell_length = table.rows[0].cells.length; 
@@ -229,13 +232,19 @@
         //DATA 불러오기
         function loadDatas() {
             let lastDatas = localStorage.getItem("datas");
-            if (!lastDatas) return;
+            if (!lastDatas) {
+                initial();
+                return;
+            }
 
             dataInfos = JSON.parse(lastDatas);
             dataInfos.forEach(addToTable);
 
             let lastGuitars = localStorage.getItem("guitars");
-            if (!lastGuitars) return;
+            if (!lastGuitars){
+                initial();
+                return;
+            }
 
             guitarInfos = JSON.parse(lastGuitars);
             addToSelects(guitarInfos);
@@ -243,10 +252,20 @@
         
         //load datas
         window.addEventListener("load", () => {
-            let guitarOnce = Array.from({length:8}, (v,i) => i+1);
-            console.log(guitarOnce);
-            addToSelects(guitarOnce); //초기값 설정
             loadDatas();
+        });
+
+        function initial() {
+            localStorage.clear();
+            dataInfos = [];
+            guitarInfos = Array.from({length:8}, (v,i) => i+1);
+            saveDatas();
+            location.reload(); //업데이트
+        }
+
+        let resetBtn = document.querySelector("#reset");
+        resetBtn.addEventListener("click", () => {
+            initial();
         });
 
         //확인 버튼 클릭 시 대여 현황에 해당 데이터 추가

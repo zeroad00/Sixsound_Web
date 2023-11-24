@@ -55,14 +55,17 @@
 <body>
 
     <!-- HTML Code -->
-    <h1><a href="index.html">WEB</a></h1>
+    <h1><a href="index.html">여섯소리</a></h1>
     <div class="d-flex" id="wrapper">
+		<!-- Menu Bar -->
         <div id="menu-bar">
             <ul><!--unordered list-->
-                <li><a href="1.html">1. HTML</a></li>
-                <li><a href="2.html">2. CSS</a></li>
-                <li><a href="3.html">3. JavaScript</a></li>
-                <li><a href="guitar.html">4. 기타 대여</a></li>
+                <li><a href="1.html">HTML</a></li>
+    		    <li><a href="2.html">CSS</a></li>
+    		    <li><a href="3.html">JavaScript</a></li>
+    		    <li><a href="guitar.html">기타 대여</a></li>
+				<li><a href="calendar.html">Calendar</a></li>
+				<li><a href="accounting.html">회계 장부</a></li>
             </ul>
         </div>
 
@@ -84,11 +87,8 @@
                     <div class="inputData">
                         <label for="guitarNum" class="form-label">기타 번호</label>
                         <select class="form-select form-control form-select-sm" id="guitarNum">
-                            <option selected></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="4">4</option>
-                            <option value="10">10</option>
+                            <option selected>
+                            </option>
                         </select>
                     </div>
                     <!-- 기간 입력 -->
@@ -125,13 +125,35 @@
         </div>
     </div>
 
+    <button id="reset"> 상태 초기화 </button>
+
     <script>
         /* JS Code */
+
+        //대여 가능한 기타 번호를 담을 배열
+        let guitarInfos = [];
+
+        function addToSelects(guitars){
+            let inputGuitar = document.querySelector("#guitarNum");
+            inputGuitar.length = 0; //select 초기화
+            
+            let option = document.createElement('option');
+            option.innerText = ""; //select에 데이터 추가
+            inputGuitar.appendChild(option);
+
+            for (let i=0; i< guitars.length; i++) {
+                option = document.createElement('option');
+                option.innerText = guitars[i]; //select에 데이터 추가
+                inputGuitar.appendChild(option);
+            }
+        };
 
         //대여 정보를 담을 배열
         let dataInfos = [];
 
+        //TABLE에 대여 정보 추가
         function addToTable(data) {
+            
             let table = document.getElementById('guitar-table');
             let new_row = table.insertRow(); //table에 tr 추가해줌
             let cell_length = table.rows[0].cells.length; 
@@ -147,16 +169,40 @@
             new_cell.appendChild(radioBtn);
 
             //데이터 추가
-            for(let i = 1; i < cell_length; i++) {
-                let new_cell = new_row.insertCell(i); //td 추가해줌
+            for(let i = 1; i < cell_length-1; i++) {
+                new_cell = new_row.insertCell(i); //td 추가해줌
                 new_cell.insertAdjacentHTML('afterbegin', data[i]);
             };
+
+            //대여 기간 추가
+            new_cell = new_row.insertCell(cell_length-1);
+            let rentDate = data[4] + " - " +data[5];
+            new_cell.insertAdjacentHTML('afterbegin', rentDate);
 
             //연장 신청 누름
             let extendBtn = document.querySelector("#extend-btn");
             extendBtn.addEventListener("click", () => {
                 if(radioBtn.checked){
-                    //날짜 연장하기
+                    let dateArr = data[5].split('-');
+                    let endDate = new Date(dateArr[0], dateArr[1]-1, dateArr[2]); //날짜 객체 생성
+                    endDate.setDate(endDate.getDate() + 7); //7일 이후 날짜 계산
+                    dateArr[0] = endDate.getFullYear();
+                    dateArr[1] = endDate.getMonth()+1;
+                    dateArr[2] = endDate.getDate();
+
+                    //출력 형식 통일
+                    if(dateArr[1]<10) {
+                        dateArr[1] = '0'+dateArr[1];
+                    }
+
+                    if(dateArr[2]<10) {
+                        dateArr[2] = '0'+dateArr[2];
+                    }
+                    data[5] = dateArr[0]+"-"+dateArr[1]+"-"+dateArr[2];
+
+                    saveDatas();
+                    location.reload(); //데이터 업데이트
+
                     alert('연장 신청이 완료 되었습니다');
                 }
             });
@@ -166,9 +212,13 @@
             returnBtn.addEventListener("click", () => {
                 if(radioBtn.checked){
                     new_row.remove();
-                    dataInfos = dataInfos.filter(t => t !== data);
+                    dataInfos = dataInfos.filter(t => t !== data); //배열에 데이터 제거
+                    guitarInfos.push(data[3]);
+                    guitarInfos.sort();
+                    addToSelects(guitarInfos); //Select에 기타 번호 재추가
                     saveDatas();
                     alert('반납 신청이 완료 되었습니다');
+                    location.reload(); //라디오버튼 중복 방지
                 }
             });
         };
@@ -176,20 +226,46 @@
         //DATA 저장
         function saveDatas() {
             localStorage.setItem("datas", JSON.stringify(dataInfos));
+            localStorage.setItem("guitars", JSON.stringify(guitarInfos));
         };
 
         //DATA 불러오기
         function loadDatas() {
             let lastDatas = localStorage.getItem("datas");
-            if (!lastDatas) return;
+            if (!lastDatas) {
+                initial();
+                return;
+            }
 
             dataInfos = JSON.parse(lastDatas);
             dataInfos.forEach(addToTable);
-        };
 
+            let lastGuitars = localStorage.getItem("guitars");
+            if (!lastGuitars){
+                initial();
+                return;
+            }
+
+            guitarInfos = JSON.parse(lastGuitars);
+            addToSelects(guitarInfos);
+        };
+        
         //load datas
         window.addEventListener("load", () => {
             loadDatas();
+        });
+
+        function initial() {
+            localStorage.clear();
+            dataInfos = [];
+            guitarInfos = Array.from({length:8}, (v,i) => i+1);
+            saveDatas();
+            location.reload(); //업데이트
+        }
+
+        let resetBtn = document.querySelector("#reset");
+        resetBtn.addEventListener("click", () => {
+            initial();
         });
 
         //확인 버튼 클릭 시 대여 현황에 해당 데이터 추가
@@ -219,12 +295,22 @@
                 return;
             }
 
-            let dataInfo = [number, textNum, textName, textGuitar, textStart+" - "+textEnd];
+            //예외처리 : 날짜 입력을 잘 못 한 경우
+            if(textStart > textEnd) {
+                alert('날짜를 다시 확인해주세요');
+                return;                
+            }
 
-            dataInfos.push(dataInfo);
+            let dataInfo = [number, textNum, textName, textGuitar, textStart, textEnd];
 
             //table에 데이터 추가
+            dataInfos.push(dataInfo);
             addToTable(dataInfo);
+
+            //select에서 해당 기타 번호 제거
+            guitarInfos = guitarInfos.filter((element) => element !== parseInt(textGuitar));
+            addToSelects(guitarInfos);
+
             saveDatas();
 
             //값 초기화

@@ -295,6 +295,12 @@
                 return;
             }
 
+            //예외처리 : 날짜 입력을 잘 못 한 경우
+            if(textStart > textEnd) {
+                alert('날짜를 다시 확인해주세요');
+                return;                
+            }
+
             let dataInfo = [number, textNum, textName, textGuitar, textStart, textEnd];
 
             //table에 데이터 추가

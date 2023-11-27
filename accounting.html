@@ -18,21 +18,71 @@
 </head>
 <body>
 	<!-- HTML Code -->
-    <h1><a href="index.html">여섯소리</a></h1>
+    <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
     <div class="d-flex" id="wrapper">
 		<!-- Menu Bar -->
 		<div id="menu-bar">
-			<ul><!--unordered list-->
-				<li><a href="1.html">HTML</a></li>
-    		    <li><a href="2.html">CSS</a></li>
-    		    <li><a href="3.html">JavaScript</a></li>
+            <ul><!--unordered list-->
     		    <li><a href="guitar.html">기타 대여</a></li>
 				<li><a href="calendar.html">Calendar</a></li>
 				<li><a href="accounting.html">회계 장부</a></li>
-			</ul>
-		</div>
-
+            </ul>
+        </div>
 		
+		<div id="function">
+            <h4>기타 대여 신청</h4>
+            <div class="application">
+                <div class="d-flex">
+                    <!-- 기수 입력 -->
+                    <div class="inputData">
+                        <label for="inputNum" class="form-label">기수</label>
+                        <input type="num" class="form-control" id="inputNum">
+                    </div>            
+                    <!-- 이름 입력 -->
+                    <div class="inputData">
+                        <label for="inputName" class="form-label">이름</label>
+                        <input type="name" class="form-control" id="inputName">
+                    </div>
+                    <!-- 기타 선택 -->
+                    <div class="inputData">
+                        <label for="guitarNum" class="form-label">기타 번호</label>
+                        <select class="form-select form-control form-select-sm" id="guitarNum">
+                            <option selected>
+                            </option>
+                        </select>
+                    </div>
+                    <!-- 기간 입력 -->
+                    <div class="inputData">
+                        <label for="inputDateStart" class="form-label">대여 일자</label>
+                        <input type="date" class="form-control" id="inputDateStart">
+                    </div>
+                    <div>
+                        <label for="inputDateEnd" class="form-label">반납 일자</label>
+                        <input type="date" class="form-control" id="inputDateEnd">
+                    </div>            
+                </div>
+                
+                <button id="add-btn"> 확인 </button>
+            </div>
+                
+            <h4>기타 대여 현황</h4>
+            <div class="rental">
+                <!-- 기타 대여 정보가 담긴 표 -->
+                <table class="table" id="guitar-table">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">기수</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">기타 번호</th>
+                        <th scope="col">대여 기간</th>
+                    </tr>
+                </table>
+                <div class="button">
+                    <button id="extend-btn"> 연장 신청 </button>
+                    <button id="return-btn"> 반납 신청 </button>
+                </div>
+            </div>
+        </div>
 	</div>
 </body>
 </html>

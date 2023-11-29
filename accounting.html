@@ -11,78 +11,127 @@
 
 	<style>
 		/* CSS Code */
-		#menu-bar {
-            margin-right: 120px;
+		#logo {
+            margin: 20px 20px 20px 40px;
+            text-align : center;
+        }
+		
+        #menu-bar {
+            padding-top: 100px;
+            padding-bottom: 100px;
+            padding-right: 40px;
+            margin-left: 20px;
+            margin-right: 20px;
+            border-right: 1px solid lightgray;
+        }
+
+        #menu-bar li {       
+            margin-bottom: 30px;
+            list-style-type: none;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        #menu-bar a {
+            color : black;
+            text-decoration: none;
+        }
+
+        #menu-bar a:hover {
+            font-weight : bold;
+		}
+
+		#function {
+            background: white;
+            padding: 40px;
+        }
+
+		#showAccount {
+			margin-bottom: 60px;
+		}
+
+		button {
+            border: 0;
+            background-color: rgb(56, 56, 56);
+            color : white;
+            margin-top: 20px;
+            border-radius: 5px;
+            padding-left : 10px;
+            padding-right : 10px;
         }
 	</style>
 </head>
+
 <body>
 	<!-- HTML Code -->
     <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
-    <div class="d-flex" id="wrapper">
+    <div id="wrapper" class="d-flex">
 		<!-- Menu Bar -->
 		<div id="menu-bar">
             <ul><!--unordered list-->
-    		    <li><a href="guitar.html">기타 대여</a></li>
-				<li><a href="calendar.html">Calendar</a></li>
-				<li><a href="accounting.html">회계 장부</a></li>
+                <li><a href="guitar.html">기타 대여</a></li>
+                <li><a href="accounting.html">회계 장부</a></li> 
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="calendar_2.html">calendar_2</a></li>
+                <li><a href="calendar_3.html">calendar_3</a></li>
             </ul>
         </div>
 		
+		<!-- 기능 구현 -->
 		<div id="function">
-            <h4>기타 대여 신청</h4>
-            <div class="application">
-                <div class="d-flex">
-                    <!-- 기수 입력 -->
-                    <div class="inputData">
-                        <label for="inputNum" class="form-label">기수</label>
-                        <input type="num" class="form-control" id="inputNum">
-                    </div>            
-                    <!-- 이름 입력 -->
-                    <div class="inputData">
-                        <label for="inputName" class="form-label">이름</label>
-                        <input type="name" class="form-control" id="inputName">
-                    </div>
-                    <!-- 기타 선택 -->
-                    <div class="inputData">
-                        <label for="guitarNum" class="form-label">기타 번호</label>
-                        <select class="form-select form-control form-select-sm" id="guitarNum">
-                            <option selected>
-                            </option>
-                        </select>
-                    </div>
-                    <!-- 기간 입력 -->
-                    <div class="inputData">
-                        <label for="inputDateStart" class="form-label">대여 일자</label>
-                        <input type="date" class="form-control" id="inputDateStart">
-                    </div>
-                    <div>
-                        <label for="inputDateEnd" class="form-label">반납 일자</label>
-                        <input type="date" class="form-control" id="inputDateEnd">
-                    </div>            
-                </div>
-                
-                <button id="add-btn"> 확인 </button>
-            </div>
-                
-            <h4>기타 대여 현황</h4>
-            <div class="rental">
-                <!-- 기타 대여 정보가 담긴 표 -->
-                <table class="table" id="guitar-table">
+            <div id="showAccount">
+				<h4>회계 장부</h4>
+                <!-- 회계 장부 목록이 담긴 표 -->
+                <table class="table" id="accounting-table">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">기수</th>
-                        <th scope="col">이름</th>
-                        <th scope="col">기타 번호</th>
-                        <th scope="col">대여 기간</th>
+                        <th scope="col">날짜</th>
+                        <th scope="col">수입/지출</th>
+                        <th scope="col">회계 내용</th>
                     </tr>
                 </table>
-                <div class="button">
-                    <button id="extend-btn"> 연장 신청 </button>
-                    <button id="return-btn"> 반납 신청 </button>
-                </div>
             </div>
-        </div>
+
+            <div id="uploadAccount">				
+				<h4>회계 등록</h4>
+                <div class="d-flex">
+                    <!-- 날짜 입력 -->
+                    <div class="inputData me-2">
+                        <label for="inputDate" class="form-label">날짜</label>
+                        <input type="date" class="form-control" id="inputDate">
+                    </div>
+
+					<!-- 수입 or 지출 -->					
+					<div id="Radio" class="d-flex me-2 pt-5">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="radioIncome" checked>
+							<label class="form-check-label" for="radioIncome">
+							수입
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="radioExpenditure">
+							<label class="form-check-label" for="radioExpenditure">
+							지출
+							</label>
+						</div>
+					</div>
+					
+					<!-- 회계 내용 -->
+					<div class="inputData me-2">
+                        <label for="inputDetail" class="form-label">회계 내용</label>
+                        <input type="name" class="form-control" id="inputDetail">
+                    </div>
+
+					<!-- 확인 버튼 -->
+					<button type="submit">확인</button>
+            	</div>
+			</div>
+		</div>
 	</div>
+
+	<script>
+		
+	</script>
 </body>
 </html>

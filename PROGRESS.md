@@ -27,7 +27,7 @@
 ![Rental Page Image](./images/rental_page.jpg)
 기타 대여 및 반납 페이지입니다.
 
-![Accounting Page Image](.images/accounting.jpg)
+![Accounting Page Image](./images/accounting.jpg)
 회계 장부 페이지입니다.
 
 ## Individual Progress Status

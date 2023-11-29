@@ -11,7 +11,7 @@
 1. <strong>웹페이지의 시작화면</strong>의 큰 틀을 구현하여 나머지 모든 페이지에 그 틀을 통일시켰습니다.
 2. <strong>기타 대여 및 반납 페이지</strong>에서는 기타를 대여하고자 하는 학생의 정보와 원하는 기타 번호, 대여 기간을 입력 받아 기타를 대여할 수 있도록 했습니다.
    대여 및 반납 시 대여현황에 자동 추가 및 삭제되도록 하였습니다. 연장 버튼을 누르면 자동으로 1주일 연장이 되며, 반납버튼을 누르면 반납처리가 되도록 구현했습니다.
-3. <strong>캘린더 페이지</strong>는 FUll Calendar을 이용하여 제작했고,
+3. <strong>캘린더 페이지</strong>는 evoCalendar을 이용하여 큰 틀을 구성했고, 해당 날짜를 클릭할 시에 그 날짜에 해당하는 일정이 뜨도록 구현하는 중입니다. 
 4. <strong>회계 페이지</strong>는 날짜, 수입/지출, 회계 내용을 입력하면 해당 회계 내용이 업로드 되도록 구현했습니다. 수입/지출의 경우 radio button을 활용하여 수입/지출 중 한가지만 선택할 수 있도록 구현했습니다.
 
 ### Project Schedule
@@ -29,6 +29,9 @@
 
 ![Accounting Page Image](./images/accounting.jpg)
 회계 장부 페이지입니다.
+
+![Calendar Page Image](./images/calendar.JPG)
+캘린더 페이지입니다.
 
 ## Individual Progress Status
 

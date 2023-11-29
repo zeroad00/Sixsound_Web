@@ -42,15 +42,13 @@
         }
 
         #logo {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            margin-left: 30px;
+            margin: 20px 20px 20px 40px;
             text-align : center;
         }
 
         #menu-bar {
-            padding-top: 150px;
-            padding-bottom: 150px;
+            padding-top: 100px;
+            padding-bottom: 100px;
             padding-right: 40px;
             margin-left: 20px;
             margin-right: 20px;
@@ -97,9 +95,11 @@
 		<!-- Menu Bar -->
         <div id="menu-bar">
             <ul><!--unordered list-->
-    		    <li><a href="guitar.html">기타 대여</a></li>
-				<li><a href="calendar.html">Calendar</a></li>
-				<li><a href="accounting.html">회계 장부</a></li>
+                <li><a href="guitar.html">기타 대여</a></li>
+                <li><a href="accounting.html">회계 장부</a></li> 
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="calendar_2.html">calendar_2</a></li>
+                <li><a href="calendar_3.html">calendar_3</a></li>
             </ul>
         </div>
 
@@ -265,7 +265,7 @@
 
         //DATA 불러오기
         function loadDatas() {
-            let lastDatas = localStorage.getItem("datas");
+            let lastDatas = localStorage.gevtItem("datas");
             if (!lastDatas) {
                 initial();
                 return;

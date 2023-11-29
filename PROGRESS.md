@@ -1,6 +1,7 @@
 # Progress Report for Team #6
 ## Progress Summary 
 ### Project Schedule
+![Schdule Image](./images/schedule.jpg)
 ### Project Screenshot
 ## Individual Progress Status
 ### 윤영로

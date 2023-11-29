@@ -132,6 +132,21 @@
 
 	<script>
 		
+
+		function addToSelects(guitars){
+            let inputGuitar = document.querySelector("#guitarNum");
+            inputGuitar.length = 0; //select 초기화
+            
+            let option = document.createElement('option');
+            option.innerText = ""; //select에 데이터 추가
+            inputGuitar.appendChild(option);
+
+            for (let i=0; i< guitars.length; i++) {
+                option = document.createElement('option');
+                option.innerText = guitars[i]; //select에 데이터 추가
+                inputGuitar.appendChild(option);
+            }
+        };
 	</script>
 </body>
 </html>

@@ -11,28 +11,142 @@
 
 	<style>
 		/* CSS Code */
-		#menu-bar {
-            margin-right: 120px;
+		#logo {
+            margin: 20px 20px 20px 40px;
+            text-align : center;
+        }
+		
+        #menu-bar {
+            padding-top: 100px;
+            padding-bottom: 100px;
+            padding-right: 40px;
+            margin-left: 20px;
+            margin-right: 20px;
+            border-right: 1px solid lightgray;
+        }
+
+        #menu-bar li {       
+            margin-bottom: 30px;
+            list-style-type: none;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        #menu-bar a {
+            color : black;
+            text-decoration: none;
+        }
+
+        #menu-bar a:hover {
+            font-weight : bold;
+		}
+
+		#function {
+            background: white;
+            padding: 40px;
+        }
+
+		#showAccount {
+			margin-bottom: 60px;
+		}
+
+		button {
+            border: 0;
+            background-color: rgb(56, 56, 56);
+            color : white;
+            margin-top: 20px;
+            border-radius: 5px;
+            padding-left : 10px;
+            padding-right : 10px;
         }
 	</style>
 </head>
+
 <body>
 	<!-- HTML Code -->
-    <h1><a href="index.html">여섯소리</a></h1>
-    <div class="d-flex" id="wrapper">
+    <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
+    <div id="wrapper" class="d-flex">
 		<!-- Menu Bar -->
 		<div id="menu-bar">
-			<ul><!--unordered list-->
-				<li><a href="1.html">HTML</a></li>
-    		    <li><a href="2.html">CSS</a></li>
-    		    <li><a href="3.html">JavaScript</a></li>
-    		    <li><a href="guitar.html">기타 대여</a></li>
-				<li><a href="calendar.html">Calendar</a></li>
-				<li><a href="accounting.html">회계 장부</a></li>	
-			</ul>
-		</div>
-
+            <ul><!--unordered list-->
+                <li><a href="guitar.html">기타 대여</a></li>
+                <li><a href="accounting.html">회계 장부</a></li> 
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="calendar_2.html">calendar_2</a></li>
+                <li><a href="calendar_3.html">calendar_3</a></li>
+            </ul>
+        </div>
 		
+		<!-- 기능 구현 -->
+		<div id="function">
+            <div id="showAccount">
+				<h4>회계 장부</h4>
+                <!-- 회계 장부 목록이 담긴 표 -->
+                <table class="table" id="accounting-table">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">날짜</th>
+                        <th scope="col">수입/지출</th>
+                        <th scope="col">회계 내용</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="uploadAccount">				
+				<h4>회계 등록</h4>
+                <div class="d-flex">
+                    <!-- 날짜 입력 -->
+                    <div class="inputData me-2">
+                        <label for="inputDate" class="form-label">날짜</label>
+                        <input type="date" class="form-control" id="inputDate">
+                    </div>
+
+					<!-- 수입 or 지출 -->					
+					<div id="Radio" class="d-flex me-2 pt-5">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="radioIncome" checked>
+							<label class="form-check-label" for="radioIncome">
+							수입
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="flexRadioDefault" id="radioExpenditure">
+							<label class="form-check-label" for="radioExpenditure">
+							지출
+							</label>
+						</div>
+					</div>
+					
+					<!-- 회계 내용 -->
+					<div class="inputData me-2">
+                        <label for="inputDetail" class="form-label">회계 내용</label>
+                        <input type="name" class="form-control" id="inputDetail">
+                    </div>
+
+					<!-- 확인 버튼 -->
+					<button type="submit">확인</button>
+            	</div>
+			</div>
+		</div>
 	</div>
+
+	<script>
+		
+
+		function addToSelects(guitars){
+            let inputGuitar = document.querySelector("#guitarNum");
+            inputGuitar.length = 0; //select 초기화
+            
+            let option = document.createElement('option');
+            option.innerText = ""; //select에 데이터 추가
+            inputGuitar.appendChild(option);
+
+            for (let i=0; i< guitars.length; i++) {
+                option = document.createElement('option');
+                option.innerText = guitars[i]; //select에 데이터 추가
+                inputGuitar.appendChild(option);
+            }
+        };
+	</script>
 </body>
 </html>

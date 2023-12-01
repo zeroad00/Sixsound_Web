@@ -29,7 +29,6 @@
         /* body 스타일 */
         html,
         body {
-            overflow: hidden;
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
         }
@@ -78,15 +77,16 @@
 <body style="padding:30px;">
     <!-- Add jQuery library (required) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
- 
+
     <!-- Add the evo-calendar.js for.. obviously, functionality! -->
     <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
-    
+
     <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
     <div class="d-flex" id="wrapper">
         <!-- Menu Bar -->
         <div id="menu-bar">
             <ul><!--unordered list-->
+                <li><a href="announce.html">공지사항</a></li>
                 <li><a href="guitar.html">기타 대여</a></li>
                 <li><a href="calendar.html">Calendar</a></li>
                 <li><a href="accounting.html">회계 장부</a></li>
@@ -143,7 +143,7 @@
     </div>
 
     <script>
-         $("#calendar").evoCalendar();
+        $("#calendar").evoCalendar();
 
         // $("#calendar").evoCalendar({
         //     calendarEvents: [
@@ -175,4 +175,5 @@
         // ]);
     </script>
 </body>
+
 </html>

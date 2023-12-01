@@ -105,6 +105,9 @@
 	</div>
 
 	<script>
+		window.addEventListener("load", () => {
+			loadAccountings();
+		})
 		// save accountings
 		let accountings = [];
 
@@ -139,6 +142,7 @@
 
 			// 2. Append the text to #showAccounting
 			accountings.push(accounting);
+			saveAccountings();
 			addToList(accounting);
 
 			// 3. Clear #uploadAccounting

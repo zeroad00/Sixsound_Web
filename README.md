@@ -26,7 +26,7 @@ OpenSource Software project 6조 </br>
 
 ### Images
 
-![Sixsound Image](./images/sixsound.jpg)
+![Sixsound Image](./images/README/sixsound.jpg)
 
 ### Project schedule
 

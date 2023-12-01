@@ -19,14 +19,23 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css" />
 
+    <link rel="stylesheet" href="menu_bar.css">
+
     <title>Sixsound_Calendar</title>
     <style>
-        /* CSS Code */
+        #wrapper {
+
+            height: 1000px;
+        }
+
+        body {
+            margin-left: 100px;
+        }
+
         .container {
             width: 640px;
         }
 
-        /* body 스타일 */
         html,
         body {
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -40,41 +49,45 @@
             padding-right: 1em;
         }
 
-        #menu-bar a {
-            color: black;
-            text-decoration: none;
+        #topcalendar {
+            margin: 5px 10px 25px;
+            padding: 5px;
         }
 
-        #menu-bar a:hover {
-            font-weight: bold;
+        .calendar {
+            padding: 1000px;
         }
 
-        #logo {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            margin-left: 30px;
-            text-align: center;
+        #Cwrite {
+            margin-top: 30px;
         }
 
-        #menu-bar {
-            padding-top: 150px;
-            padding-bottom: 150px;
-            padding-right: 40px;
-            margin-left: 20px;
-            margin-right: 20px;
-            border-right: 1px solid lightgray;
+        .inputData {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            margin-left: 10px;
+            padding: 1em;
         }
 
-        #menu-bar li {
-            margin-bottom: 30px;
-            list-style-type: none;
-            letter-spacing: 2px;
-            text-align: center;
+        .inputTime {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            margin-left: 10px;
+            padding: 1em;
+        }
+
+        .inputStartDate {
+
+            margin-right: 5px;
+        }
+
+        #add-issue {
+            margin-bottom: 50px;
         }
     </style>
 </head>
 
-<body style="padding:30px;">
+<body>
     <!-- Add jQuery library (required) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 
@@ -88,91 +101,182 @@
             <ul><!--unordered list-->
                 <li><a href="announce.html">공지사항</a></li>
                 <li><a href="guitar.html">기타 대여</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
                 <li><a href="accounting.html">회계 장부</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="calendar_2.html">calendar_2</a></li>
+                <li><a href="calendar_3.html">calendar_3</a></li>
             </ul>
         </div>
 
         <!-- HTML Code -->
-
-
-        <div class="flex-grow-1" id="notice">
+        <div id="notice" style="overflow:auto; width:1500px; height:1000px;">
             <!-- html code -->
-            <nav class="navbar bg-body-tertiary">
-                <div class="container">
-                    <span class="navbar-brand mb-0 h1">
+            <div class="navbar navbar-expand-sm navbar-fixed-top bg-body-tertiary">
+                <div class="container-fluid collapse navbar-collapse" id="topcalendar">
+                    <span class="navbar-brand mb-0 h1 d-flex">
                         <!-- checkimage -->
-                        <i class="bi bi-card-checklist"></i>
-                        여섯소리 Calendar
-
+                        <i class="bi bi-card-checklist fs-2"></i>
+                        <p class="fs-3"> 여섯소리 Calendar</p>
                     </span>
                 </div>
-            </nav>
+            </div>
 
             <!-- calendar -->
             <div id="calendar"></div>
-
-            <!-- calendar code write -->
-
-
-            <!-- notice in calendar -->
-            <div class="container">
-                <div class="d-flex">
-                    <div class="flex-grow-1 bg-light rounded-2 p-2 me-1 w-50">
-                        <h3>공지사항</h3>
-                        <div id="task-list">
-                            <div class="task bg-light p-1 rounded-2 ps-2 d-flex align items-center">
-                                <span class="me-auto">캘린더에서 가져오기</span>
-
-                            </div>
+            <div class="Issue" id="Cwrite">
+                <h4>일정 추가</h4>
+                <div class="datetime">
+                    <!-- 일정 -->
+                    <div class="d-flex">
+                        <!-- 일정명 입력 -->
+                        <div class="inputData">
+                            <label for="inputname" class="form-label">일정명</label>
+                            <input type="name" class="form-control" size="14" maxlength="10"
+                                id="inputname">
+                        </div>
+                        <!-- 일정 설명 -->
+                        <div class="inputData">
+                            <label for="inputname" class="form-label">일정 설명</label>
+                            <input type="name" class="form-control " size="50" maxlength="30" id="inputdescription">
                         </div>
                     </div>
-
-                    <div class="flex-grow-1 bg-light rounded-2 p-2 w-50">
-                        <h3>행사일정</h3>
-                        <div id="done-list">
-                            <div class="task bg-light p-1 rounded-2 ps-2 d-flex align items-center">
-                                <span class="me-auto">캘린더에서 가져오기</span>
-
-                            </div>
+                    <!-- 시작 날짜, 시간 입력 -->
+                    <div class="inputStartDate d-flex">
+                        <div class="inputData">
+                            <label for="inputDateStart" class="form-label">일정 시작 일자</label>
+                            <input type="date" class="form-control" id="inputDateStart">
+                        </div>
+                        <div class="inputTime">
+                            <label for="inputDataStartTime" class="form-label">일정 시작 시간</label>
+                            <input type="datetime" class="form-control" id="inputDateStartTime">
+                        </div>
+                    </div>
+                    <!-- 종료 날짜, 시간 입력 -->
+                    <div class="inputEndDate d-flex">
+                        <div class="inputData">
+                            <label for="inputDateEnd" class="form-label">일정 종료 일자</label>
+                            <input type="date" class="form-control" id="inputDateEnd">
+                        </div>
+                        <div class="inputTime">
+                            <label for="inputDataStartTime" class="form-label">일정 종료 시간</label>
+                            <input type="datetime" class="form-control" id="inputDateEndTime">
                         </div>
                     </div>
                 </div>
+                <button id="add-issue">추가</button>
             </div>
+            <!-- calendar code write -->
         </div>
     </div>
 
-    <script>
-        $("#calendar").evoCalendar();
 
-        // $("#calendar").evoCalendar({
-        //     calendarEvents: [
-        //         {
-        //             id: 'bHay68s', // Event's ID (required)
-        //             name: "New Year", // Event name (required)
-        //             date: "January/1/2023", // Event date (required)
-        //             type: "holiday", // Event type (required)
-        //             everyYear: true // Same event every year (optional)
-        //         },
-        //         {
-        //             name: "Vacation Leave",
-        //             badge: "02/13 - 02/15", // Event badge (optional)
-        //             date: ["February/13/2020", "February/15/2020"], // Date range
-        //             description: "Vacation leave for 3 days.", // Event description (optional)
-        //             type: "event",
-        //             color: "#63d867" // Event custom color (optional)
-        //         }
-        //     ]
+    <script>
+
+
+        // var nameid = $('#inputname').val();
+        // var descripid = $('#inputdescription').val();
+        // var startdateid = $('#inputDateStart').val();
+        // var starttimeid = $('#inputDateStartTime').val();
+        // var enddateid = $('#inputDateEnd').val();
+        // var endtimeid = $('#inputDateEndTime').val();
+
+        //const dataControl = document.querySelector('input[type="date"]')
+        // function getname() {
+
+
+        // }
+        // const [text, setText] = useState("");
+        // const [name, setName] = useState("");
+        // const onChange = (e) => {
+        //     setText(e.target.value);
+        // }
+        // const onClick = () => {
+        //     setName(text);
+        // }
+        const Cname = document.getElementById('inputname').value;
+        console.log(Cname);
+
+        $("#calendar").evoCalendar({
+            calendarEvents: [
+                {
+                    id: 'bHay68s', // Event's ID (required)
+                    name: Cname, // Event name (required)
+                    date: "November/29/2023", // Event date (required)
+                    type: "holiday", // Event type (required)
+                    everyYear: true // Same event every year (optional)
+                },
+                {
+                    name: "Vacation Leave",
+                    badge: "11/30 - 12/15", // Event badge (optional)
+                    date: ["November/30/2023", "December/15/2023"], // Date range
+                    description: "Vacation leave for 3 days.", // Event description (optional)
+                    type: "event",
+                    color: "#63d867" // Event custom color (optional)
+                }
+            ]
+        });
+        addBtn.addEventListener("click", () => {
+            //데이터 읽어오기
+            let inputname = document.getElementById('inputname');
+            let textname = inputname.value;
+
+            let inputdescrip = document.getElementById('inputdescription');
+            let textdescrip = inputdescrip.value;
+
+            let inputdatestart = document.getElementById('inputDateStart');
+            let textdatestart = inputdatestart.value;
+            
+            let inputstarttime = document.getElementById('inputDateStartTime');
+            let textstarttime = inputstarttime.value;
+
+            let inputdateend = document.getElementById('inputDateEnd');
+            let textdateend = inputdateend.value;
+
+            let inputdateendtime = document.getElementById('inputDateEndTime');
+            let textdateendtime = inputdateendtime.value;
+
+            //예외처리 : 입력이 부족한 경우
+            if(!textname || !textdescrip || !textdatestart || !textstarttime || !textdateend || !textdateendtime) {
+                alert('입력하지 않은 정보가 있습니다');
+                return;
+            }
+
+            //예외처리 : 날짜 입력을 잘 못 한 경우
+            if(textStart > textEnd) {
+                alert('날짜를 다시 확인해주세요');
+                return;                
+            }
+
+            let dataInfo = [number, textNum, textName, textGuitar, textStart, textEnd];
+
+            //table에 데이터 추가
+            dataInfos.push(dataInfo);
+            addToTable(dataInfo);
+
+            //select에서 해당 기타 번호 제거
+            guitarInfos = guitarInfos.filter((element) => element !== parseInt(textGuitar));
+            addToSelects(guitarInfos);
+
+            saveDatas();
+
+            //값 초기화
+            inputNum.value="";
+            inputName.value="";
+            inputGuitar.value="";
+            inputStart.value="";
+            inputEnd.value="";
+        });
+        
+        calendarEvents.push(
+// 캘린더 정보를 뒤에 추가한다. 
+
+        );
+
+        // $("#evoCalendar").on('selectDate', function () {
+        //     // code here
+
         // });
-        // $("#evoCalendar").evoCalendar('addCalendarEvent', [
-        //     {
-        //         id: '09nk7Ts',
-        //         name: "My Birthday",
-        //         date: "February/15/2020",
-        //         type: "birthday",
-        //         everyYear: true
-        //     }
-        // ]);
+
     </script>
 </body>
 

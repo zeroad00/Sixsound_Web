@@ -27,3 +27,8 @@
 #menu-bar a:hover {
 	font-weight : bold;
 }
+
+#function {
+	background: white;
+	padding: 40px;
+}

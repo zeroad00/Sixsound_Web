@@ -41,7 +41,8 @@
 
 ### 김재현 2020202031
 
-- 회계 장부 페이지 구현 : 날짜, 수입/지출, 회계 내용 입력 칸, 확인 버튼 구현
+- 회계 장부 페이지 구현 : 날짜, 수입/지출, 금액, 회계 내용 입력 칸, 확인 버튼 구현 ([Commit Link](https://github.com/zeroad00/Sixsound_Web/commit/c2b733544fdd654661e5ae32ef092db4d1c32c6b))
+- 회계 리스트 업로드 구현 ([Commit Link](https://github.com/zeroad00/Sixsound_Web/commit/96d9c4e6fccc315aff78f2663acf85f8d1c22183))
 
 ### 손 민 2022202012
 

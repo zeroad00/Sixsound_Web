@@ -160,7 +160,17 @@
 			let accountingList = document.querySelector("#accounting-table");
 			accountingList.appendChild(newAccounting);
 		}
-
+		
+		function saveAccountings() {
+			localStorage.setItem("accountings", JSON.stringify(accountings));
+		}
+		function loadAccountings() {
+			let lastAccountings = localStorage.getItem("accountings");
+			if(!lastAccountings) return ;
+			
+			accountings = JSON.parse(lastAccountings);
+			accountings.forEach(addToList);
+		}
 		
 	</script>
 </body>

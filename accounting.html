@@ -105,7 +105,7 @@
 		</div>
 	</div>
 
-	<script>
+	<script>		
 		window.addEventListener("load", () => {
 			loadAccountings();
 		})
@@ -166,9 +166,32 @@
 			accountingList.appendChild(newAccounting);
 		}
 		
+		// function saveAccountings(){
+		// 	fs.writeFile("accountings.json", JSON.stringify(accountings), 'utf8', function (err) {
+		// 		if (err) {
+        // 			console.log("An error occured while writing JSON Object to File.");
+        // 			return console.log(err);
+    	// 		}
+ 
+		//     	console.log("JSON file has been saved.");
+		// 	});
+		// }
+
+		// function loadAccountings() {
+		// 	fs.readFile('accountings.json',
+		// 		// callback function that is called when reading file is done
+		// 	    function(err, data) {       
+    	// 	    if (err) throw err;
+    	// 	    // data is a buffer containing file content
+    	// 	    accountings = JSON.parse(lastAccountings);
+		// 		accountings.forEach(addToList);
+		// 	});
+		// }
+
 		function saveAccountings() {
 			localStorage.setItem("accountings", JSON.stringify(accountings));
 		}
+		
 		function loadAccountings() {
 			let lastAccountings = localStorage.getItem("accountings");
 			if(!lastAccountings) return ;
@@ -176,6 +199,7 @@
 			accountings = JSON.parse(lastAccountings);
 			accountings.forEach(addToList);
 		}
+		
 		
 	</script>
 </body>

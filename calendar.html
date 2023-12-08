@@ -181,13 +181,13 @@
                 <!-- 일정 list -->
                 <table class="table" id="calendar-table">
                     <tr>
+                        <th scope="col"> </th>
                         <th scope="col">일정명</th>
                         <th scope="col">일정내용</th>
                         <th scope="col">일정기간</th>
                     </tr>
                 </table>
                 <div class="button">
-                    <button id="rewrite-btn"> 일정 수정 </button>
                     <button id="delete-btn"> 일정 삭제 </button>
                 </div>
             </div>
@@ -197,8 +197,7 @@
 
     <script>
         // 처음 캘린더 추가
-        $("#calendar").evoCalendar({
-        });
+        $("#calendar").evoCalendar({});
         document.addEventListener("DOMContentLoaded", function () {
             // 캘린더에 추가된 일정 정보를 담을 배열
             let calendarEvents = [];
@@ -249,19 +248,45 @@
                 let table = document.getElementById('calendar-table');
                 let newRow = table.insertRow();
 
+                // 체크박스 추가
+                let checkboxCell = newRow.insertCell(0);
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkboxCell.appendChild(checkbox);
+
                 // 여러 열(칼럼)에 데이터 추가
                 let cellCount = table.rows[0].cells.length;
 
                 // 일정 설명과 시간 정보를 배열에 추가
                 let eventInfo = [event.name, event.description, event.date.join(' - '), event.startTime + ' - ' + event.endTime];
 
-                for (let i = 0; i < cellCount; i++) {
+                for (let i = 1; i <= cellCount; i++) {
                     let newCell = newRow.insertCell(i);
-                    newCell.textContent = eventInfo[i];
+                    newCell.textContent = eventInfo[i - 1];
                 }
             }
+
+            // "일정 삭제" 버튼 클릭 시 동작
+            let deleteBtn = document.querySelector("#delete-btn");
+
+            deleteBtn.addEventListener("click", () => {
+                let table = document.getElementById('calendar-table');
+                let checkboxes = table.querySelectorAll('input[type="checkbox"]:checked');
+
+                checkboxes.forEach((checkbox) => {
+                    let rowIndex = checkbox.closest('tr').rowIndex;
+
+                    // 선택된 행응 table에서 삭제
+                    table.deleteRow(rowIndex);
+
+                    // 선택된 일정을 calendarEvents 배열에서 삭제 
+                    let deletedEvent = calendarEvents.splice(rowIndex, 1)[0];
+
+                    // calendar에서도 선택된 일정을 삭제
+                    $("#calendar").evoCalendar('removeCalendarEvent', deletedEvent);
+                });
+            });
         });
     </script>
 </body>
-
 </html>

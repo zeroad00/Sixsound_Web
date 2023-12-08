@@ -14,23 +14,22 @@
 
 	<style>
 		/* CSS Code */
-		#function {
-			background: white;
-			padding: 40px;
-		}
-
-		#showAccount {
+		#showAccounting {
 			margin-bottom: 60px;
 		}
 
 		button {
-			border: 0;
-			background-color: rgb(56, 56, 56);
-			color: white;
-			margin-top: 20px;
-			border-radius: 5px;
-			padding-left: 10px;
-			padding-right: 10px;
+            border: 0;
+            background-color: rgb(56, 56, 56);
+            color : white;
+            margin-top: 20px;
+            border-radius: 5px;
+            padding-left : 10px;
+            padding-right : 10px;
+        }
+
+		tr {
+			text-align: center;
 		}
 	</style>
 </head>
@@ -41,30 +40,32 @@
 	<div id="wrapper" class="d-flex">
 		<!-- Menu Bar -->
 		<nav id="menu-bar">
-			<ul><!--unordered list-->
-				<li><a href="announce.html">공지사항</a></li>
-				<li><a href="guitar.html">기타 대여</a></li>
-				<li><a href="accounting.html">회계 장부</a></li>
-				<li><a href="calendar.html">Calendar</a></li>
-			</ul>
-		</nav>
-
+            <ul><!--unordered list-->
+                <li><a href="announce.html">공지사항</a></li>
+                <li><a href="guitar.html">기타 대여</a></li>
+                <li><a href="accounting.html">회계 장부</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+            </ul>
+        </nav>
+		
 		<!-- 기능 구현 -->
 		<div id="function">
-			<div id="showAccount">
+            <div id="showAccounting">
 				<h4>회계 장부</h4>
-				<!-- 회계 장부 목록이 담긴 표 -->
-				<table class="table" id="accounting-table">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">날짜</th>
-						<th scope="col">수입/지출</th>
-						<th scope="col">회계 내용</th>
-					</tr>
-				</table>
-			</div>
+                <!-- 회계 장부 목록이 담긴 표 -->
+                <table class="table" id="accounting-table">
+                    <tr>
+                        <th><i class="bi bi-journal-text"></i></th>
+                        <th>날짜</th>
+                        <th>수입/지출</th>
+						<th>금액</th>
+                        <th>회계 내용</th>
+                        <th>잔액</th>						
+                    </tr>
+                </table>
+            </div>
 
-			<div id="uploadAccount">
+            <div id="uploadAccounting">
 				<h4>회계 등록</h4>
 				<div class="d-flex">
 					<!-- 날짜 입력 -->
@@ -76,35 +77,130 @@
 					<!-- 수입 or 지출 -->
 					<div id="Radio" class="d-flex me-2 pt-5">
 						<div class="form-check">
-							<input class="form-check-input" type="radio" name="flexRadioDefault" id="radioIncome"
-								checked>
-							<label class="form-check-label" for="radioIncome">
-								수입
-							</label>
+							<input class="form-check-input" type="radio" name="radioBtn" id="radioIncome" checked>
+							<label class="form-check-label" for="radioIncome">수입</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input" type="radio" name="flexRadioDefault" id="radioExpenditure">
-							<label class="form-check-label" for="radioExpenditure">
-								지출
-							</label>
+							<input class="form-check-input" type="radio" name="radioBtn" id="radioExpenditure">
+							<label class="form-check-label" for="radioExpenditure">지출</label>
 						</div>
 					</div>
+					
+					<!-- 금액 -->
+					<div class="inputData me-2" style="width: 150px">
+                        <label for="inputPrice" class="form-label">금액</label>
+                        <input type="number" class="form-control" id="inputPrice" step="10">
+                    </div>
 
 					<!-- 회계 내용 -->
-					<div class="inputData me-2">
-						<label for="inputDetail" class="form-label">회계 내용</label>
-						<input type="name" class="form-control" id="inputDetail">
-					</div>
+					<div class="inputData me-2" style="width: 300px">
+                        <label for="inputDetail" class="form-label">회계 내용</label>
+                        <input type="text" class="form-control" id="inputDetail">
+                    </div>
 
 					<!-- 확인 버튼 -->
-					<button type="submit">확인</button>
-				</div>
+					<button type="submit" id="add-btn">확인</button>
+            	</div>
 			</div>
 		</div>
 	</div>
 
-	<script>
+	<script>		
+		window.addEventListener("load", () => {
+			loadAccountings();
+		})
+		// save accountings
+		let accountings = [];
 
+		let addBtn = document.querySelector("#add-btn");
+		addBtn.addEventListener("click", ()=>{
+			// 1. Read the input in #uploadAccounting
+			let accounting = {
+				date: "",
+				inout: "",
+				money: 0,
+				detail: "",
+				balance: 0,
+			}
+			let date = document.querySelector("#inputDate"); accounting.date = date.value; // date type string
+			let inout = document.querySelector("#radioIncome"); accounting.inout = (inout.checked === true) ? "수입" : "지출"; // select money income or expenditure
+			let money = document.querySelector("#inputPrice"); accounting.money = parseInt(money.value, 10); // money type int
+			let detail = document.querySelector("#inputDetail"); accounting.detail = detail.value; // detail type string
+			
+			// if input length is zero, alert
+			if(!accounting.date.length) {alert("날짜를 입력하세요."); return;}
+			else if(!accounting.detail.length) {alert("회계 내용을 입력하세요."); return;}
+
+			// bring previous balance
+			let pre_balance;
+			if(accountings.length==0) pre_balance = 0;
+			else pre_balance = accountings[accountings.length - 1].balance;
+			// calculate balance
+			if(accounting.money <= 0) {alert("금액을 양수 범위에서 입력하세요."); return;}
+			else if(accounting.inout==="수입") accounting.balance = pre_balance + accounting.money;
+			else if(pre_balance >= accounting.money) accounting.balance = pre_balance - accounting.money;
+			else {alert("사용 가능 한도를 초과했습니다!"); return;}
+
+			// 2. Append the text to #showAccounting
+			accountings.push(accounting);
+			saveAccountings();
+			addToList(accounting);
+
+			// 3. Clear #uploadAccounting
+			date.value = "";
+			inout.value = "";
+			money.value = "";
+			detail.value = "";
+		});
+
+		function addToList(accounting){
+			let newAccounting = document.createElement("tr");
+			newAccounting.appendChild(document.createElement("td"));
+			Object.values(accounting).forEach((n)=>{
+				let td = document.createElement("td");
+				td.textContent = n;
+				newAccounting.appendChild(td);
+			});
+
+			let accountingList = document.querySelector("#accounting-table");
+			accountingList.appendChild(newAccounting);
+		}
+		
+		// function saveAccountings(){
+		// 	fs.writeFile("accountings.json", JSON.stringify(accountings), 'utf8', function (err) {
+		// 		if (err) {
+        // 			console.log("An error occured while writing JSON Object to File.");
+        // 			return console.log(err);
+    	// 		}
+ 
+		//     	console.log("JSON file has been saved.");
+		// 	});
+		// }
+
+		// function loadAccountings() {
+		// 	fs.readFile('accountings.json',
+		// 		// callback function that is called when reading file is done
+		// 	    function(err, data) {       
+    	// 	    if (err) throw err;
+    	// 	    // data is a buffer containing file content
+    	// 	    accountings = JSON.parse(lastAccountings);
+		// 		accountings.forEach(addToList);
+		// 	});
+		// }
+
+		function saveAccountings() {
+			localStorage.setItem("accountings", JSON.stringify(accountings));
+		}
+		
+		function loadAccountings() {
+			let lastAccountings = localStorage.getItem("accountings");
+			if(!lastAccountings) return ;
+			
+			accountings = JSON.parse(lastAccountings);
+			accountings.forEach(addToList);
+		}
+		
+		
 	</script>
 </body>
 

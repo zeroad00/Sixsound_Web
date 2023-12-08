@@ -60,11 +60,13 @@
 						<th>날짜</th>
 						<th>수입/지출</th>
 						<th>금액</th>
-						<th>회계 내용</th>
-						<th>잔액</th>
-					</tr>
-				</table>
-			</div>
+                        <th>회계 내용</th>
+                        <th>잔액</th>						
+                    </tr>
+                </table>
+
+				<button type="submit" id="del-btn">삭제</button>
+            </div>
 
 			<div id="uploadAccounting">
 				<h4>회계 등록</h4>
@@ -113,9 +115,10 @@
 		// save accountings
 		let accountings = [];
 
+		// add accounting
 		let addBtn = document.querySelector("#add-btn");
-		addBtn.addEventListener("click", () => {
-			// 1. Read the input in #uploadAccounting
+		addBtn.addEventListener("click", ()=>{
+			// Read the input in #uploadAccounting
 			let accounting = {
 				date: "",
 				inout: "",
@@ -127,67 +130,46 @@
 			let inout = document.querySelector("#radioIncome"); accounting.inout = (inout.checked === true) ? "수입" : "지출"; // select money income or expenditure
 			let money = document.querySelector("#inputPrice"); accounting.money = parseInt(money.value, 10); // money type int
 			let detail = document.querySelector("#inputDetail"); accounting.detail = detail.value; // detail type string
+			
+			// handle exceptions
+			if(!accounting.date.length) {alert("날짜를 입력하세요."); return;}
+			if(!accounting.detail.length) {alert("회계 내용을 입력하세요."); return;}
+			if(accounting.money <= 0) {alert("금액을 양수 범위에서 입력하세요."); return;}
 
-			// if input length is zero, alert
-			if (!accounting.date.length) { alert("날짜를 입력하세요."); return; }
-			else if (!accounting.detail.length) { alert("회계 내용을 입력하세요."); return; }
-
-			// bring previous balance
-			let pre_balance;
-			if (accountings.length == 0) pre_balance = 0;
-			else pre_balance = accountings[accountings.length - 1].balance;
-			// calculate balance
-			if (accounting.money <= 0) { alert("금액을 양수 범위에서 입력하세요."); return; }
-			else if (accounting.inout === "수입") accounting.balance = pre_balance + accounting.money;
-			else if (pre_balance >= accounting.money) accounting.balance = pre_balance - accounting.money;
-			else { alert("사용 가능 한도를 초과했습니다!"); return; }
-
-			// 2. Append the text to #showAccounting
+			// Sort Array by date, refresh the page
 			accountings.push(accounting);
+			accountings.sort((a, b) => a.date > b.date ? 1 : -1);
 			saveAccountings();
-			addToList(accounting);
-
-			// 3. Clear #uploadAccounting
-			date.value = "";
-			inout.value = "";
-			money.value = "";
-			detail.value = "";
+			location.reload();
 		});
 
 		function addToList(accounting) {
 			let newAccounting = document.createElement("tr");
-			newAccounting.appendChild(document.createElement("td"));
-			Object.values(accounting).forEach((n) => {
+			let checkbox = document.createElement("input");
+			checkbox.setAttribute('type', 'checkbox');
+			checkbox.className="delChecked";
+			newAccounting.appendChild(document.createElement("td").appendChild(checkbox));
+			Object.values(accounting).forEach((n)=>{
 				let td = document.createElement("td");
 				td.textContent = n;
 				newAccounting.appendChild(td);
 			});
-
 			let accountingList = document.querySelector("#accounting-table");
 			accountingList.appendChild(newAccounting);
 		}
 
-		// function saveAccountings(){
-		// 	fs.writeFile("accountings.json", JSON.stringify(accountings), 'utf8', function (err) {
-		// 		if (err) {
-		// 			console.log("An error occured while writing JSON Object to File.");
-		// 			return console.log(err);
-		// 		}
-
-		//     	console.log("JSON file has been saved.");
-		// 	});
-		// }
-
-		// function loadAccountings() {
-		// 	fs.readFile('accountings.json',
-		// 		// callback function that is called when reading file is done
-		// 	    function(err, data) {       
-		// 	    if (err) throw err;
-		// 	    // data is a buffer containing file content
-		// 	    accountings = JSON.parse(lastAccountings);
-		// 		accountings.forEach(addToList);
-		// 	});
-		// }
+		// remove accounting
+		let delBtn = document.querySelector("#del-btn");
+		delBtn.addEventListener("click", ()=>{
+			const checkboxes = document.getElementsByClassName('delChecked');
+			for (let i = checkboxes.length - 1; i >= 0; i--) {
+     			if (checkboxes[i].checked) {
+        			checkboxes[i].parentNode.remove();
+					accountings.splice(i, 1);
+     			}
+    		}
+			saveAccountings();
+		})
 
 		function saveAccountings() {
 			localStorage.setItem("accountings", JSON.stringify(accountings));
@@ -195,9 +177,13 @@
 
 		function loadAccountings() {
 			let lastAccountings = localStorage.getItem("accountings");
-			if (!lastAccountings) return;
-
+			if(!lastAccountings) return ;
 			accountings = JSON.parse(lastAccountings);
+
+			// modify balance values
+			for(let i = 1; i<accountings.length; i++){
+				accountings[i].balance = accountings[i-1].balance + accountings[i].money;
+			}
 			accountings.forEach(addToList);
 		}
 

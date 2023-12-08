@@ -123,7 +123,6 @@
                 <li><a href="calendar.html">Calendar</a></li>
                 <li><a href="calendar_2.html">calendar_2</a></li>
                 <li><a href="calendar_3.html">calendar_3</a></li>
-                <li><a href="activity.html">동아리 활동</a></li>
             </ul>
         </div>
 
@@ -199,86 +198,69 @@
     <script>
         // 처음 캘린더 추가
         $("#calendar").evoCalendar({
-            calendarEvents: [
-                {
-                    id: 'bHay68s', // Event's ID (required)
-                    name: Cname, // Event name (required)
-                    date: "November/29/2023", // Event date (required)
-                    type: "holiday", // Event type (required)
-                    everyYear: true // Same event every year (optional)
-                },
-                {
-                    name: "Vacation Leave",
-                    badge: "11/30 - 12/15", // Event badge (optional)
-                    date: ["November/30/2023", "December/15/2023"], // Date range
-                    description: "Vacation leave for 3 days.", // Event description (optional)
-                    type: "event",
-                    color: "#63d867" // Event custom color (optional)
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            // 캘린더에 추가된 일정 정보를 담을 배열
+            let calendarEvents = [];
+
+            // "추가" 버튼 클릭 시 동작
+            let addBtn = document.querySelector("#add-issue");
+
+            addBtn.addEventListener("click", () => {
+                // 입력된 값 가져오기
+                let eventName = document.getElementById('inputname').value;
+                let eventDescription = document.getElementById('inputdescription').value;
+                let eventStartDate = document.getElementById('inputDateStart').value;
+                let eventEndDate = document.getElementById('inputDateEnd').value;
+
+                // 입력값 예외 처리
+                if (!eventName || !eventStartDate || !eventEndDate) {
+                    alert('일정명 및 날짜를 모두 입력하세요.');
+                    return;
                 }
-            ]
-        });
-        addBtn.addEventListener("click", () => {
-            //데이터 읽어오기
-            let inputname = document.getElementById('inputname');
-            let textname = inputname.value;
 
-            let inputdescrip = document.getElementById('inputdescription');
-            let textdescrip = inputdescrip.value;
+                // 일정 객체 생성
+                let newEvent = {
+                    name: eventName,
+                    description: eventDescription,
+                    date: [eventStartDate, eventEndDate],
+                    type: "event",
+                    everyYear: true
+                };
 
-            let inputdatestart = document.getElementById('inputDateStart');
-            let textdatestart = inputdatestart.value;
+                // 캘린더에 일정 추가
+                $("#calendar").evoCalendar('addCalendarEvent', newEvent);
 
-            let inputstarttime = document.getElementById('inputDateStartTime');
-            let textstarttime = inputstarttime.value;
+                // 일정 배열에 추가
+                calendarEvents.push(newEvent);
 
-            let inputdateend = document.getElementById('inputDateEnd');
-            let textdateend = inputdateend.value;
+                // 일정 목록에 추가
+                addToTable(newEvent);
 
-            let inputdateendtime = document.getElementById('inputDateEndTime');
-            let textdateendtime = inputdateendtime.value;
+                // 입력값 초기화
+                document.getElementById('inputname').value = "";
+                document.getElementById('inputdescription').value = "";
+                document.getElementById('inputDateStart').value = "";
+                document.getElementById('inputDateEnd').value = "";
+            });
 
-            //예외처리 : 입력이 부족한 경우
-            if (!textname || !textdescrip || !textdatestart || !textstarttime || !textdateend || !textdateendtime) {
-                alert('입력하지 않은 정보가 있습니다');
-                return;
+            // 캘린더 일정 목록에 추가하는 함수
+            function addToTable(event) {
+                let table = document.getElementById('calendar-table');
+                let newRow = table.insertRow();
+
+                // 여러 열(칼럼)에 데이터 추가
+                let cellCount = table.rows[0].cells.length;
+
+                // 일정 설명과 시간 정보를 배열에 추가
+                let eventInfo = [event.name, event.description, event.date.join(' - '), event.startTime + ' - ' + event.endTime];
+
+                for (let i = 0; i < cellCount; i++) {
+                    let newCell = newRow.insertCell(i);
+                    newCell.textContent = eventInfo[i];
+                }
             }
-
-            //예외처리 : 날짜 입력을 잘 못 한 경우
-            if (textStart > textEnd) {
-                alert('날짜를 다시 확인해주세요');
-                return;
-            }
-
-            let dataInfo = [number, textNum, textName, textGuitar, textStart, textEnd];
-
-            //table에 데이터 추가
-            dataInfos.push(dataInfo);
-            addToTable(dataInfo);
-
-            //select에서 해당 기타 번호 제거
-            guitarInfos = guitarInfos.filter((element) => element !== parseInt(textGuitar));
-            addToSelects(guitarInfos);
-
-            saveDatas();
-
-            //값 초기화
-            inputNum.value = "";
-            inputName.value = "";
-            inputGuitar.value = "";
-            inputStart.value = "";
-            inputEnd.value = "";
         });
-
-        calendarEvents.push(
-            // 캘린더 정보를 뒤에 추가한다. 
-
-        );
-
-        // $("#evoCalendar").on('selectDate', function () {
-        //     // code here
-
-        // });
-
     </script>
 </body>
 

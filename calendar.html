@@ -24,7 +24,6 @@
     <title>Sixsound_Calendar</title>
     <style>
         #wrapper {
-
             height: 1000px;
         }
 
@@ -191,8 +190,10 @@
 
 
     <script>
-        // 처음 캘린더 추가
-        $("#calendar").evoCalendar({});
+        // 처음 캘린더 만들기
+        $("#calendar").evoCalendar({
+
+        });
         document.addEventListener("DOMContentLoaded", function () {
             // 캘린더에 추가된 일정 정보를 담을 배열
             let calendarEvents = [];
@@ -222,11 +223,17 @@
                     everyYear: true
                 };
 
+                // local 저장
+                saveIssue(newEvent);
+
+                // JSON 문자열을 객체로 변환 및 저장
+                let issueevent = JSON.parse(localStorage.getItem('issue'));
+
                 // 캘린더에 일정 추가
-                $("#calendar").evoCalendar('addCalendarEvent', newEvent);
+                $("#calendar").evoCalendar('addCalendarEvent', issueevent);
 
                 // 일정 배열에 추가
-                calendarEvents.push(newEvent);
+                calendarEvents.push(issueevent);
 
                 // 일정 목록에 추가
                 addToTable(newEvent);
@@ -238,10 +245,104 @@
                 document.getElementById('inputDateEnd').value = "";
             });
 
+            function saveIssue(newEvent) {
+                localStorage.setItem('issue', JSON.stringify(newEvent));
+                // 추가
+                storedEvents.push(newEvent);
+                localStorage.setItem('issue', JSON.stringify(storedEvents));
+            }
+
+            function loadIssue() {
+                // 로컬 스토리지에서 "issue" 키에 해당하는 값을 가져오기
+                let calendarEventsString = localStorage.getItem("issue");
+
+                // 만약 값이 존재한다면, JSON 파싱 수행
+                if (calendarEventsString) {
+                    // 로컬 스토리지에서 불러온 이벤트들을 calendarEvents 배열에 추가
+                    let storedEvents = JSON.parse(calendarEventsString);
+
+
+
+
+
+                    // 문제가 있습니당
+                    // 캘린더에 이벤트 추가
+                    // storedEvents.forEach(eventcal => {
+                    //     $("#calendar").evoCalendar('addCalendarEvent', eventcal);
+                    // });
+                    $("#calendar").evoCalendar('addCalendarEvent', storedEvents);
+                    // 추가
+                    // 일정 배열 업데이트
+                    calendarEvents = storedEvents;
+
+                    // 캘린더 일정 목록 업데이트
+                    //renderTable();
+                }
+            }
+
+            window.addEventListener("load", () => {
+                loadIssue();
+            });
+
+            // 캘린더 일정 목록에 추가하는 함수
+            function renderTable() {
+                let table = document.getElementById('calendar-table');
+                table.innerHTML = ''; // 기존 내용 초기화
+
+                // 첫 번째 행에 헤더 추가
+                let headerRow = table.insertRow();
+                let headerCheckboxCell = headerRow.insertCell(0);
+                let headerCheckbox = document.createElement("input");
+                headerCheckbox.type = "checkbox";
+                headerCheckboxCell.appendChild(headerCheckbox);
+                let headerLabels = ['일정명', '설명', '기간'];
+                headerLabels.forEach((label, index) => {
+                    let headerCell = headerRow.insertCell(index + 1);
+                    headerCell.textContent = label;
+                });
+
+                calendarEvents.forEach((event, rowIndex) => {
+                    let newRow = table.insertRow();
+
+                    // 체크박스 추가
+                    let checkboxCell = newRow.insertCell(0);
+                    let checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkboxCell.appendChild(checkbox);
+
+                    // 여러 열(칼럼)에 데이터 추가
+                    let eventInfo = [event.name, event.description, event.date.join(' - ')];
+
+                    for (let i = 1; i <= eventInfo.length; i++) {
+                        let newCell = newRow.insertCell(i);
+                        newCell.textContent = eventInfo[i - 1];
+                    }
+
+                    // 체크박스가 체크될 때마다 선택된 일정 배열 업데이트
+                    checkbox.addEventListener("change", () => {
+                        if (checkbox.checked) {
+                            // 선택된 일정 배열에 추가
+                            selectedEvents.push(calendarEvents[rowIndex]);
+                        } else {
+                            // 선택 해제된 일정 배열에서 제거
+                            selectedEvents = selectedEvents.filter((selectedEvent) => selectedEvent !== calendarEvents[rowIndex]);
+                        }
+                    });
+                });
+            }
+
+            function initial() {
+                localStorage.clear();
+                calendarEvents = [];
+                saveIssue();
+                location.reload(); //업데이트
+            }
+
             // 캘린더 일정 목록에 추가하는 함수
             function addToTable(event) {
                 let table = document.getElementById('calendar-table');
                 let newRow = table.insertRow();
+                // table.innerHTML = ''; // 기존 내용 초기화
 
                 // 체크박스 추가
                 let checkboxCell = newRow.insertCell(0);
@@ -279,9 +380,32 @@
 
                     // calendar에서도 선택된 일정을 삭제
                     $("#calendar").evoCalendar('removeCalendarEvent', deletedEvent);
+
+                    // local storage에서 remove
+                    removeFromLocalStorage(deletedEvent);
+
+                    // 선택된 일정 배열에서도 삭제
+                    selectedEvents = selectedEvents.filter((selectedEvent) => selectedEvent !== deletedEvent);
+
                 });
             });
+
+            function removeFromLocalStorage(deletedEvent) {
+                let storedEvents = JSON.parse(localStorage.getItem('issue')) || [];
+
+                // 일정을 찾아서 삭제
+                let updatedEvents = storedEvents.filter((event) => {
+                    return !(event.name === deletedEvent.name &&
+                        event.description === deletedEvent.description &&
+                        event.date[0] === deletedEvent.date[0] &&
+                        event.date[1] === deletedEvent.date[1]);
+                });
+
+                // 로컬 스토리지에 업데이트된 일정 저장
+                localStorage.setItem('issue', JSON.stringify(updatedEvents));
+            }
         });
     </script>
 </body>
+
 </html>

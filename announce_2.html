@@ -41,11 +41,6 @@
             line-height: 2;
         }
 
-        .tag {
-            margin-right: 40px;
-            color: lightcoral;
-        }
-
         .date {
             color: rgb(142, 142, 142);
             float: right;
@@ -75,6 +70,10 @@
         .pagination a:hover:not(.active) {
             background-color: #ddd;
         }
+
+        .title {
+            letter-spacing: 2px;
+        }
     </style>
 
 </head>
@@ -98,66 +97,6 @@
         <div id="function">
             <h4 id="big-title">공지사항</h4>
             <div id="notification">
-                <details>
-                    <summary>
-                        <span class="tag">[중요 공지]</span>
-                        <span class="title">공지사항 안내</span>
-                        <span class="date">2022-10-09</span>
-                    </summary>
-                    <div class="content">
-                        <p>
-                            동아리 관련 중요한 공지사항을 올리는 게시판입니다.
-                        </p>
-                    </div>
-                </details>
-                <details>
-                    <summary>
-                        <span class="tag">[중요 공지]</span>
-                        <span class="title">기타 대여 안내</span>
-                        <span class="date">2022-10-07</span>
-                    </summary>
-                    <div class="content">
-                        <p>
-                            기타 대여를 원하는 경우, 기타 대여 게시판을 이용해주세요.
-                        </p>
-                    </div>
-                </details>
-                <details>
-                    <summary>
-                        <span class="tag">[중요 공지]</span>
-                        <span class="title">회계 장부 안내</span>
-                        <span class="date">2022-10-05</span>
-                    </summary>
-                    <div class="content">
-                        <p>
-                            회계 장부 내역을 확인하고 싶다면 회계 장부 게시판을 이용해주세요.
-                        </p>
-                    </div>
-                </details>
-                <details>
-                    <summary>
-                        <span class="tag">[중요 공지]</span>
-                        <span class="title">Calendar 안내</span>
-                        <span class="date">2022-10-03</span>
-                    </summary>
-                    <div class="content">
-                        <p>
-                            동아리 일정을 확인하고 싶다면 Calendar 게시판을 이용해주세요.
-                        </p>
-                    </div>
-                </details>
-                <details>
-                    <summary>
-                        <span class="tag">[중요 공지]</span>
-                        <span class="title">동아리 활동 안내</span>
-                        <span class="date">2022-10-03</span>
-                    </summary>
-                    <div class="content">
-                        <p>
-                            동아리 활동 사진, 영상을 확인하고 싶다면 동아리 활동 게시판을 이용해주세요.
-                        </p>
-                    </div>
-                </details>
             </div>
 
             <div class="pagination d-flex justify-content-center">
@@ -166,11 +105,219 @@
                 <a class="active" href="announce_2.html">2</a>
                 <a href="announce_2.html">&raquo;</a>
             </div>
+
+            <div class="write">
+                <div class="d-flex justify-content-end gap-4">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#writeModal" data-bs-whatever="">글쓰기</button>
+                </div>
+
+                <div class="modal fade" id="writeModal" tabindex="-1" aria-labelledby="#writeModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="writeModalLabel">공지사항 게시판</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">제목</label>
+                                        <input type="text" class="form-control" id="recipient-name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">내용</label>
+                                        <textarea class="form-control" id="message-text"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                <button type="button" id="upload" class="btn btn-primary"
+                                    data-bs-dismiss="modal">올리기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
+        let notices = [];
+        let basic = [
+            {
+                title: "동아리 활동 안내",
+                detail: "동아리 활동 사진, 영상을 확인하고 싶다면 동아리 활동 게시판을 이용해주세요.",
+                date: "2022-10-01"
+            },
+            {
+                title: "Calendar 안내",
+                detail: "동아리 일정을 확인하고 싶다면 Calendar 게시판을 이용해주세요.",
+                date: "2022-10-03"
+            },
+            {
+                title: "회계 장부 안내",
+                detail: "회계 장부 내역을 확인하고 싶다면 회계 장부 게시판을 이용해주세요.",
+                date: "2022-10-05"
+            },
+            {
+                title: "기타 대여 안내",
+                detail: "기타 대여를 원하는 경우, 기타 대여 게시판을 이용해주세요.",
+                date: "2022-10-07"
+            },
+            {
+                title: "공지사항 안내",
+                detail: "동아리 관련 중요한 공지사항을 올리는 게시판입니다.",
+                date: "2022-10-09"
+            },
+            {
+                title: "2023 창립제 공지",
+                detail: "여섯소리 창립제를 진행합니다. 많은 참여 부탁드립니다. 일시 : 2023년 5월 20일 토요일 집합 장소 : 광운대학교 조광운 동상 앞",
+                date: "2023-05-04"
+            },
+            {
+                title: "2023 워크샵 공지",
+                detail: "정기 연주회를 위해 2박 3일간 워크샵을 진행합니다. 단체 합주곡과 조별 곡 연습을 진행할 예정이오니 많은 참여바랍니다. 출발 시간 : 2023년 7월 18일 화요일 13시 장소 : 대성리 뜨락펜션",
+                date: "2023-07-09"
+            },
+            {
+                title: "2023 정기 연주회 공지",
+                detail: "여섯소리 연주회를 진행합니다. 일시 : 2023년 9월 16일 토요일 17시 장소 : 광운대학교 한울관 B101호",
+                date: "2023-09-03"
+            },
+            {
+                title: "여섯소리 홈페이지입니다",
+                detail: "안녕하세요, 광운대학교 유일 클래식 기타 동아리 여섯소리 홈페이지입니다.",
+                date: "2023-12-01"
+            }
+        ];
+
+        function saveNotices() {
+            localStorage.setItem("notices", JSON.stringify(notices));
+        }
+
+        function loadNotices() {
+            let lastNotices = localStorage.getItem("notices");
+
+            if (!lastNotices) {
+                localStorage.setItem("notices", JSON.stringify(basic));
+            }
+
+            notices = JSON.parse(lastNotices);
+
+            for (let i = notices.length - 10; i < notices.length - 5; i++) {
+                if (notices[i] != undefined) {
+                    addToBoard(notices[i]);
+                }
+            }
+        }
+
+        window.addEventListener("load", () => {
+            loadNotices();
+        });
+
+        const uploadBtn = document.getElementById('upload');
+
+        //업로드 버튼 누른 경우
+        uploadBtn.addEventListener("click", () => {
+            const writeModal = document.getElementById('writeModal');
+
+            //제목 가져오기
+            const modalBodyInput = writeModal.querySelector('.modal-body input')
+            const modalTitle = modalBodyInput.value;
+
+            //내용 가져오기
+            const modalBodyText = writeModal.querySelector('.modal-body textarea')
+            const modalDetail = modalBodyText.value;
+
+            //날짜 가져오기
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+
+            //출력 형식 통일
+            if (month < 10) {
+                month = '0' + month;
+            }
+
+            if (day < 10) {
+                day = '0' + day;
+            }
+
+            let today = year + "-" + month + "-" + day;
+
+            let notice = {
+                title: modalTitle,
+                detail: modalDetail,
+                date: today
+            };
+
+            //array에 글 정보 추가
+            notices.push(notice);
+            saveNotices();
+
+            //공지사항 추가
+            addToBoard(notice);
+
+            modalBodyInput.value = "";
+            modalBodyText.value = "";
+
+            location.reload(); //데이터 업데이트
+        });
+
+        //작성한 공지사항 추가하기
+        function addToBoard(notice) {
+            let details = document.createElement("details");
+            let summary = document.createElement("summary");
+
+            details.appendChild(summary);
+
+            //제목 추가
+            let spanTitle = document.createElement("span");
+            spanTitle.classList.add("title");
+            spanTitle.textContent = notice.title;
+
+            summary.appendChild(spanTitle);
+
+            //날짜 추가
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+
+
+            //날짜 추가
+            let spanDate = document.createElement("span");
+            spanDate.classList.add("date");
+            spanDate.textContent = notice.date;
+
+            summary.appendChild(spanDate);
+
+            let div = document.createElement("div");
+            div.classList.add("content");
+
+            details.appendChild(div);
+
+            //내용 추가
+            let p = document.createElement("p");
+            p.textContent = notice.detail;
+
+            div.appendChild(p);
+
+            let board = document.querySelector("#notification");
+            board.insertBefore(details, board.firstChild);
+        };
     </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+        </script>
 
 </body>
 

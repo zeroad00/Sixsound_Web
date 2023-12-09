@@ -132,8 +132,9 @@
 			let detail = document.querySelector("#inputDetail"); accounting.detail = detail.value; // detail type string
 			
 			// handle exceptions
-			if(!accounting.date.length) {alert("날짜를 입력하세요."); return;}
-			if(!accounting.detail.length) {alert("회계 내용을 입력하세요."); return;}
+			if(!date.value.length) {alert("날짜를 입력하세요."); return;}
+			if(!detail.value.length) {alert("회계 내용을 입력하세요."); return;}
+			if(!money.value.length) {alert("금액을 입력하세요."); return;}
 			if(accounting.money <= 0) {alert("금액을 양수 범위에서 입력하세요."); return;}
 
 			// Sort Array by date, refresh the page

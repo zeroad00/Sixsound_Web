@@ -43,6 +43,11 @@
             line-height: 2;
         }
 
+        .tag {
+            margin-right: 40px;
+            color: lightcoral;
+        }
+
         .date {
             color: rgb(142, 142, 142);
             float: right;
@@ -76,22 +81,32 @@
         .title {
             letter-spacing: 2px;
         }
+
+        #back {
+            text-decoration-line: none;
+            margin-top: 10px;
+            margin-right: 10px;
+            color: black;
+        }
     </style>
 
 </head>
 
 <body>
     <!-- HTML Code -->
-    <a href="start.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
+    <div class="d-flex justify-content-end">
+        <a id="back" href="index.html">뒤로 가기</a>
+    </div>
+
+    <a href="m_announce.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
+
     <div id="wrapper" class="d-flex">
         <!-- Menu Bar -->
         <nav id="menu-bar">
             <ul><!--unordered list-->
-                <li><a href="announce.html">공지사항</a></li>
-                <li><a href="guitar.html">기타 대여</a></li>
-                <li><a href="accounting.html">회계 장부</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="activity.html">동아리 활동</a></li>
+                <li><a href="m_announce.html">공지사항</a></li>
+                <li><a href="m_accounting.html">회계 장부</a></li>
+                <li><a href="m_calendar.html">Calendar</a></li>
             </ul>
         </nav>
 
@@ -102,15 +117,55 @@
             </div>
 
             <div class="pagination d-flex justify-content-center">
-                <a href="announce.html">&laquo;</a>
-                <a href="announce.html">1</a>
-                <a class="active" href="announce_2.html">2</a>
-                <a href="announce_2.html">&raquo;</a>
+                <a href="m_announce.html">&laquo;</a>
+                <a class="active" href="m_announce.html">1</a>
+                <a href="m_announce_2.html">2</a>
+                <a href="m_announce_2.html">&raquo;</a>
             </div>
+
+            <div class="write">
+                <div class="d-flex justify-content-end gap-4">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#writeModal" data-bs-whatever="">글쓰기</button>
+                </div>
+
+                <div class="modal fade" id="writeModal" tabindex="-1" aria-labelledby="#writeModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="writeModalLabel">공지사항 게시판</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">제목</label>
+                                        <input type="text" class="form-control" id="recipient-name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">내용</label>
+                                        <textarea class="form-control" id="message-text"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                <button type="button" id="upload" class="btn btn-danger"
+                                    data-bs-dismiss="modal">올리기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
+
+        //기존 데이터
         let notices = [];
         let basic = [
             {
@@ -140,7 +195,7 @@
             },
             {
                 title: "2023 창립제 공지",
-                detail: "여섯소리 창립제를 진행합니다. 많은 참여 부탁드립니다.일시 : 2023년 5월 20일 토요일 집합 장소 : 광운대학교 조광운 동상 앞",
+                detail: "여섯소리 창립제를 진행합니다. 많은 참여 부탁드립니다. 일시 : 2023년 5월 20일 토요일 집합 장소 : 광운대학교 조광운 동상 앞",
                 date: "2023-05-04"
             },
             {
@@ -155,6 +210,12 @@
             }
         ];
 
+        function initial() {
+            notices = basic;
+            saveNotices();
+            location.reload(); //업데이트
+        }
+
         function saveNotices() {
             localStorage.setItem("notices", JSON.stringify(notices));
         }
@@ -166,9 +227,10 @@
                 initial();
                 return;
             }
+
             notices = JSON.parse(lastNotices);
 
-            for (let i = notices.length - 10; i < notices.length - 5; i++) {
+            for (let i = notices.length - 5; i < notices.length; i++) {
                 if (notices[i] != undefined) {
                     addToBoard(notices[i]);
                 }
@@ -177,6 +239,56 @@
 
         window.addEventListener("load", () => {
             loadNotices();
+        });
+
+        const uploadBtn = document.getElementById('upload');
+
+        //업로드 버튼 누른 경우
+        uploadBtn.addEventListener("click", () => {
+            const writeModal = document.getElementById('writeModal');
+
+            //제목 가져오기
+            const modalBodyInput = writeModal.querySelector('.modal-body input')
+            const modalTitle = modalBodyInput.value;
+
+            //내용 가져오기
+            const modalBodyText = writeModal.querySelector('.modal-body textarea')
+            const modalDetail = modalBodyText.value;
+
+            //날짜 가져오기
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+
+            //출력 형식 통일
+            if (month < 10) {
+                month = '0' + month;
+            }
+
+            if (day < 10) {
+                day = '0' + day;
+            }
+
+            let today = year + "-" + month + "-" + day;
+
+            let notice = {
+                title: modalTitle,
+                detail: modalDetail,
+                date: today
+            };
+
+            //array에 글 정보 추가
+            notices.push(notice);
+            saveNotices();
+
+            //공지사항 추가
+            addToBoard(notice);
+
+            modalBodyInput.value = "";
+            modalBodyText.value = "";
+
+            location.reload(); //데이터 업데이트
         });
 
         //작성한 공지사항 추가하기
@@ -222,7 +334,6 @@
             board.insertBefore(details, board.firstChild);
         };
     </script>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">

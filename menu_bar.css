@@ -54,3 +54,10 @@ body {
 	padding-top: 40px;
 	padding-bottom: 40px;
 }
+
+#back {
+	text-decoration-line: none;
+	margin-top: 10px;
+	margin-right: 10px;
+	color: black;
+}

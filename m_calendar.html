@@ -109,6 +109,10 @@
     <!-- Add the evo-calendar.js for.. obviously, functionality! -->
     <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
 
+    <div class="d-flex justify-content-end">
+        <a id="back" href="index.html">뒤로 가기</a>
+    </div>
+
     <a href="start.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
     <div class="d-flex" id="wrapper">
         <!-- Menu Bar -->
@@ -223,7 +227,7 @@
                 };
 
                 calendarEvents.push(newEvent);
-            
+
                 // 캘린더에 일정 추가
                 $("#calendar").evoCalendar('addCalendarEvent', newEvent);
 
@@ -291,4 +295,5 @@
         });
     </script>
 </body>
+
 </html>

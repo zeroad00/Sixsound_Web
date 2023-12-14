@@ -187,6 +187,7 @@
 			accountings = JSON.parse(lastAccountings);
 
 			// modify balance values
+			accountings[0].balance = accountings[0].money;
 			for (let i = 1; i < accountings.length; i++) {
 				accountings[i].balance = accountings[i - 1].balance + accountings[i].money;
 			}

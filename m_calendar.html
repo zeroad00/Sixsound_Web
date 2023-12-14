@@ -109,34 +109,66 @@
     <!-- Add the evo-calendar.js for.. obviously, functionality! -->
     <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
 
-    <a href="m_announce.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
+    <a href="start.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
     <div class="d-flex" id="wrapper">
         <!-- Menu Bar -->
-        <nav id="menu-bar">
+        <div id="menu-bar">
             <ul><!--unordered list-->
-                <li><a href="m_announce.html">공지사항</a></li>
-                <li><a href="m_accounting.html">회계 장부</a></li>
-                <li><a href="m_calendar.html">Calendar</a></li>
+                <li><a href="announce.html">공지사항</a></li>
+                <li><a href="guitar.html">기타 대여</a></li>
+                <li><a href="accounting.html">회계 장부</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="activity.html">동아리 활동</a></li>
             </ul>
-        </nav>
+        </div>
 
         <!-- HTML Code -->
-        <div id="function">
-            <div id="notice" style="overflow:auto; width:1500px; height:1000px;">
-                <!-- html code -->
-                <div class="navbar navbar-expand-sm navbar-fixed-top bg-body-tertiary">
-                    <div class="container-fluid collapse navbar-collapse" id="topcalendar">
-                        <span class="navbar-brand mb-0 h1 d-flex">
-                            <!-- checkimage -->
-                            <i class="bi bi-card-checklist fs-2"></i>
-                            <p class="fs-3"> 여섯소리 Calendar</p>
-                        </span>
+        <div id="notice" style="overflow:auto; width:1500px; height:1000px;">
+            <!-- html code -->
+            <div class="navbar navbar-expand-sm navbar-fixed-top bg-body-tertiary">
+                <div class="container-fluid collapse navbar-collapse" id="topcalendar">
+                    <span class="navbar-brand mb-0 h1 d-flex">
+                        <!-- checkimage -->
+                        <i class="bi bi-card-checklist fs-2"></i>
+                        <p class="fs-3"> 여섯소리 Calendar</p>
+                    </span>
+                </div>
+            </div>
+
+            <!-- calendar -->
+            <div id="calendar"></div>
+            <div class="Issue" id="Cwrite">
+                <h4>일정 추가</h4>
+                <div class="datetime">
+                    <!-- 일정 -->
+                    <div class="d-flex">
+                        <!-- 일정명 입력 -->
+                        <div class="inputData">
+                            <label for="inputname" class="form-label">일정명</label>
+                            <input type="name" class="form-control" size="14" maxlength="10" id="inputname">
+                        </div>
+                        <!-- 일정 설명 -->
+                        <div class="inputData">
+                            <label for="inputname" class="form-label">일정 설명</label>
+                            <input type="name" class="form-control " size="50" maxlength="30" id="inputdescription">
+                        </div>
                     </div>
+
+                    <div class="inputStartDate d-flex">
+                        <!-- 시작 날짜 입력 -->
+                        <div class="inputData">
+                            <label for="inputDateStart" class="form-label">일정 시작 일자</label>
+                            <input type="date" class="form-control" id="inputDateStart">
+                        </div>
+                        <!-- 종료 날짜 입력 -->
+                        <div class="inputData">
+                            <label for="inputDateEnd" class="form-label">일정 종료 일자</label>
+                            <input type="date" class="form-control" id="inputDateEnd">
+                        </div>
+                    </div>
+                    <button id="add-issue">추가</button>
                 </div>
 
-                <!-- calendar -->
-                <div id="calendar"></div>
-                
                 <!-- calendar code write -->
                 <h4>일정</h4>
                 <div class="calendarlist">
@@ -149,6 +181,9 @@
                             <th scope="col">일정기간</th>
                         </tr>
                     </table>
+                    <div class="button">
+                        <button id="delete-btn"> 일정 삭제 </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,7 +194,103 @@
         // 처음 캘린더 만들기
         $("#calendar").evoCalendar({
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // 캘린더에 추가된 일정 정보를 담을 배열
+            let calendarEvents = [];
+            let selectedEvents = [];
+            // "추가" 버튼 클릭 시 동작
+            let addBtn = document.querySelector("#add-issue");
+
+            addBtn.addEventListener("click", () => {
+                // 입력된 값 가져오기
+                let eventName = document.getElementById('inputname').value;
+                let eventDescription = document.getElementById('inputdescription').value;
+                let eventStartDate = document.getElementById('inputDateStart').value;
+                let eventEndDate = document.getElementById('inputDateEnd').value;
+
+                // 입력값 예외 처리
+                if (!eventName || !eventStartDate || !eventEndDate) {
+                    alert('일정명 및 날짜를 모두 입력하세요.');
+                    return;
+                }
+
+                // 일정 객체 생성
+                let newEvent = {
+                    name: eventName,
+                    description: eventDescription,
+                    date: [eventStartDate, eventEndDate],
+                    type: "event",
+                    everyYear: true
+                };
+
+                calendarEvents.push(newEvent);
+            
+                // 캘린더에 일정 추가
+                $("#calendar").evoCalendar('addCalendarEvent', newEvent);
+
+                // 일정 목록에 추가
+                addToTable(newEvent);
+
+                // 입력값 초기화
+                document.getElementById('inputname').value = "";
+                document.getElementById('inputdescription').value = "";
+                document.getElementById('inputDateStart').value = "";
+                document.getElementById('inputDateEnd').value = "";
+            });
+
+            // 캘린더 일정 목록에 추가하는 함수
+            function addToTable(event) {
+                let table = document.getElementById('calendar-table');
+                let newRow = table.insertRow();
+                // table.innerHTML = ''; // 기존 내용 초기화
+
+                // 체크박스 추가
+                let checkboxCell = newRow.insertCell(0);
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkboxCell.appendChild(checkbox);
+
+                // 여러 열(칼럼)에 데이터 추가
+                let cellCount = table.rows[0].cells.length;
+
+                // 일정 설명과 시간 정보를 배열에 추가
+                let eventInfo = [event.name, event.description, event.date.join(' - '), event.startTime + ' - ' + event.endTime];
+
+                for (let i = 1; i <= cellCount; i++) {
+                    let newCell = newRow.insertCell(i);
+                    newCell.textContent = eventInfo[i - 1];
+                }
+            }
+
+            // "일정 삭제" 버튼 클릭 시 동작
+            let deleteBtn = document.querySelector("#delete-btn");
+
+            deleteBtn.addEventListener("click", () => {
+                let table = document.getElementById('calendar-table');
+                let checkboxes = table.querySelectorAll('input[type="checkbox"]:checked');
+
+                checkboxes.forEach((checkbox) => {
+                    let rowIndex = checkbox.closest('tr').rowIndex;
+
+                    // 선택된 행응 table에서 삭제
+                    table.deleteRow(rowIndex);
+
+                    // 선택된 일정을 calendarEvents 배열에서 삭제 
+                    let deletedEvent = calendarEvents.splice(rowIndex, 1)[0];
+
+                    // calendar에서도 선택된 일정을 삭제
+                    $("#calendar").evoCalendar('removeCalendarEvent', deletedEvent);
+
+                    // // local storage에서 remove
+                    // removeFromLocalStorage(deletedEvent);
+
+                    // 선택된 일정 배열에서도 삭제
+                    selectedEvents = selectedEvents.filter((selectedEvent) => selectedEvent !== deletedEvent);
+
+                });
+            });
+        });
     </script>
 </body>
-
 </html>

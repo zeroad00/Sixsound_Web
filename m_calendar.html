@@ -253,7 +253,7 @@
                 let cellCount = table.rows[0].cells.length;
 
                 // 일정 설명과 시간 정보를 배열에 추가
-                let eventInfo = [event.name, event.description, event.date.join(' - '), event.startTime + ' - ' + event.endTime];
+                let eventInfo = [event.name, event.description, event.date.join(' - ')];
 
                 for (let i = 1; i <= cellCount; i++) {
                     let newCell = newRow.insertCell(i);

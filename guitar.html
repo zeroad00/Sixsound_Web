@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>WEB - javascript</title>
+    <title>SixSound Loan Guitar</title>
 
     <meta charset="utf-8">
     <!--브라우저를 열 때 " "사이의 형태로 열어라-->
@@ -61,7 +61,7 @@
 <body>
 
     <!-- HTML Code -->
-    <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
+    <a href="start.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
     <div class="d-flex" id="wrapper">
         <!-- Menu Bar -->
         <div id="menu-bar">
@@ -206,6 +206,9 @@
                     data[5] = dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2];
 
                     saveDatas();
+
+                    radioBtn.checked = false;
+
                     location.reload(); //데이터 업데이트
 
                     alert('연장 신청이 완료 되었습니다');
@@ -218,10 +221,13 @@
                 if (radioBtn.checked) {
                     new_row.remove();
                     dataInfos = dataInfos.filter(t => t !== data); //배열에 데이터 제거
-                    guitarInfos.push(data[3]);
+                    guitarInfos.push(Number(data[3]));
                     guitarInfos.sort();
                     addToSelects(guitarInfos); //Select에 기타 번호 재추가
                     saveDatas();
+
+                    radioBtn.checked = false;
+
                     alert('반납 신청이 완료 되었습니다');
                     location.reload(); //라디오버튼 중복 방지
                 }

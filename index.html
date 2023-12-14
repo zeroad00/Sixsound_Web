@@ -2,10 +2,9 @@
 <html>
 
 <head>
-    <title>WEB - html</title>
+    <title>SixSound Homepage</title>
 
     <meta charset="utf-8">
-    <!--브라우저를 열 때 " "사이의 형태로 열어라-->
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -14,100 +13,59 @@
     <link rel="stylesheet" href="menu_bar.css">
 
     <style>
-        #function {
-            height: 550px;
+        .choose {
+            margin-top: 200px;
         }
 
-        #carouselExampleInterval {
-            margin-left: 20px;
-            margin-right: 20px;
+        .circle {
+            width: 200px;
+            height: 200px;
+            border: 15px solid rgb(188, 220, 255);
+            border-radius: 50%;
+
+            position: relative;
         }
 
-        .carousel-inner {
-            width: 600px;
-        }
-
-        #link {
-            padding-top: 150px;
-            padding-bottom: 150px;
-            text-align: center;
-        }
-
-        #link li {
-            list-style-type: none;
-            margin-bottom: 30px;
-        }
-
-        #link a {
+        .circle a {
             letter-spacing: 2px;
+            font-size: 30px;
+        }
+
+        a {
+            width: 100px;
+            height: 100px;
             color: black;
             text-decoration: none;
+
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #user {
+            text-align: center;
+            margin-right: 200px;
+        }
+
+        #manage {
+            text-align: center;
         }
     </style>
 
 </head>
 
 <body>
-
-    <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
-
-    <div class="d-flex" id="wrapper">
-        <!-- menu bar -->
-        <div id="menu-bar">
-            <ul><!--unordered list-->
-                <li><a href="announce.html">공지사항</a></li>
-                <li><a href="guitar.html">기타 대여</a></li>
-                <li><a href="accounting.html">회계 장부</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="activity.html">동아리 활동</a></li>
-            </ul>
-        </div>
-
-        <!-- menu bar -->
-        <div id="function" class="d-flex">
-            <!-- 화면 슬라이드 -->
-            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="3000">
-                        <img src="./images/index1.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="./images/index2.jpg" class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+    <div class="choose">
+        <div class="d-flex justify-content-evenly">
+            <div class="circle" id="user">
+                <a href="start.html"><i class="bi bi-people-fill"></i></br>사용자</br>모드</a>
             </div>
-
-            <!--
-			a = 하이퍼링크
-			target=새창이 열리게 함
-			title = 조그맣게 어떤 주소로 연결될지가 뜸
-			-->
-
-            <div id="link">
-                <ul>
-                    <li><a href="https://www.instagram.com/kwu_sixsounds/" target="_blank" title="instagram">
-                            <i class="bi bi-instagram"></i><br>instagram</a><br></a></li>
-                    <li><a href="https://cafe.daum.net/sixsound6" target="_blank" title="daum cafe">
-                            <i class="bi bi-cup"></i><br>cafe</a></li>
-                </ul>
+            <div class="circle" id="manage">
+                <a href="m_announce.html"><i class="bi bi-tools"></i></br>관리자</br>모드</a>
             </div>
         </div>
     </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-        </script>
 </body>
 
 </html>

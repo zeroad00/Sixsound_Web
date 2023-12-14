@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <title>SixSound Announce</title>
+
     <meta charset="utf-8">
 
     <!-- Bootstrap CSS -->
@@ -85,7 +87,7 @@
 
 <body>
     <!-- HTML Code -->
-    <a href="index.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
+    <a href="start.html"><img id="logo" src="./images/logo.jpg" width="10%"></a>
     <div id="wrapper" class="d-flex">
         <!-- Menu Bar -->
         <nav id="menu-bar">
@@ -110,44 +112,6 @@
                 <a href="announce_2.html">2</a>
                 <a href="announce_2.html">&raquo;</a>
             </div>
-
-            <div class="write">
-                <div class="d-flex justify-content-end gap-4">
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#writeModal" data-bs-whatever="">글쓰기</button>
-                </div>
-
-                <div class="modal fade" id="writeModal" tabindex="-1" aria-labelledby="#writeModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="writeModalLabel">공지사항 게시판</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">제목</label>
-                                        <input type="text" class="form-control" id="recipient-name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">내용</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                <button type="button" id="upload" class="btn btn-danger"
-                                    data-bs-dismiss="modal">올리기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -195,13 +159,14 @@
                 title: "2023 정기 연주회 공지",
                 detail: "여섯소리 연주회를 진행합니다. 일시 : 2023년 9월 16일 토요일 17시 장소 : 광운대학교 한울관 B101호",
                 date: "2023-09-03"
-            },
-            {
-                title: "여섯소리 홈페이지입니다",
-                detail: "안녕하세요, 광운대학교 유일 클래식 기타 동아리 여섯소리 홈페이지입니다.",
-                date: "2023-12-01"
             }
         ];
+
+        function initial() {
+            notices = basic;
+            saveNotices();
+            location.reload(); //업데이트
+        }
 
         function saveNotices() {
             localStorage.setItem("notices", JSON.stringify(notices));
@@ -211,7 +176,8 @@
             let lastNotices = localStorage.getItem("notices");
 
             if (!lastNotices) {
-                localStorage.setItem("notices", JSON.stringify(basic));
+                initial();
+                return;
             }
 
             notices = JSON.parse(lastNotices);
@@ -225,56 +191,6 @@
 
         window.addEventListener("load", () => {
             loadNotices();
-        });
-
-        const uploadBtn = document.getElementById('upload');
-
-        //업로드 버튼 누른 경우
-        uploadBtn.addEventListener("click", () => {
-            const writeModal = document.getElementById('writeModal');
-
-            //제목 가져오기
-            const modalBodyInput = writeModal.querySelector('.modal-body input')
-            const modalTitle = modalBodyInput.value;
-
-            //내용 가져오기
-            const modalBodyText = writeModal.querySelector('.modal-body textarea')
-            const modalDetail = modalBodyText.value;
-
-            //날짜 가져오기
-            let date = new Date();
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-
-            //출력 형식 통일
-            if (month < 10) {
-                month = '0' + month;
-            }
-
-            if (day < 10) {
-                day = '0' + day;
-            }
-
-            let today = year + "-" + month + "-" + day;
-
-            let notice = {
-                title: modalTitle,
-                detail: modalDetail,
-                date: today
-            };
-
-            //array에 글 정보 추가
-            notices.push(notice);
-            saveNotices();
-
-            //공지사항 추가
-            addToBoard(notice);
-
-            modalBodyInput.value = "";
-            modalBodyText.value = "";
-
-            location.reload(); //데이터 업데이트
         });
 
         //작성한 공지사항 추가하기

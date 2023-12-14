@@ -131,16 +131,21 @@
 				detail: "",
 				balance: 0,
 			}
-			let date = document.querySelector("#inputDate"); accounting.date = date.value; // date type string
-			let inout = document.querySelector("#radioIncome"); accounting.inout = (inout.checked === true) ? "수입" : "지출"; // select money income or expenditure
-			let money = document.querySelector("#inputPrice"); accounting.money = parseInt(money.value, 10); // money type int
-			let detail = document.querySelector("#inputDetail"); accounting.detail = detail.value; // detail type string
+			let date = document.querySelector("#inputDate"); 
+			let inout = document.querySelector("#radioIncome"); 
+			let money = document.querySelector("#inputPrice"); 
+			let detail = document.querySelector("#inputDetail"); 
 
 			// handle exceptions
 			if (!date.value.length) { alert("날짜를 입력하세요."); return; }
 			if (!detail.value.length) { alert("회계 내용을 입력하세요."); return; }
 			if (!money.value.length) { alert("금액을 입력하세요."); return; }
-			if (accounting.money <= 0) { alert("금액을 양수 범위에서 입력하세요."); return; }
+			if (parseInt(money.value, 10) <= 0) { alert("금액을 양수 범위에서 입력하세요."); return; }
+
+			accounting.date = date.value; // date type string
+			accounting.inout = (inout.checked === true) ? "수입" : "지출"; // select money income or expenditure
+			accounting.money = accounting.inout === "수입" ? parseInt(money.value, 10) : -parseInt(money.value, 10); // money type int
+			accounting.detail = detail.value; // detail type string
 
 			// Sort Array by date, refresh the page
 			accountings.push(accounting);
@@ -174,7 +179,8 @@
 					accountings.splice(i, 1);
 				}
 			}
-			saveAccountings();
+			saveAccountings();			
+			location.reload();
 		})
 
 		function saveAccountings() {
